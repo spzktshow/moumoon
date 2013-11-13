@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="org.spzktshow.file.dataStrcuture.IFile"/>
+    <classEntry path="org.spzktshow.file.behavier.IFileSystemOperation"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.IFileSystem"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.IFileInputOutputCreateContext"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.IFileInputOutputSaveContext"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.IFileInputOutputSaveAsContext"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.IFileInputOutputOpenContext"/>
+    <classEntry path="org.spzktshow.file.behavier.IFileInputOutputOperation"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.File"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.FileSystem"/>
+    <classEntry path="org.spzktshow.file.behavier.FileSystemOperation"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.FileInputOutputCreateContext"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.FileInputOutputOpenContext"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.FileInputOutputSaveAsContext"/>
+    <classEntry path="org.spzktshow.file.dataStrcuture.FileInputOutputSaveContext"/>
+    <classEntry path="org.spzktshow.file.behavier.FileInputOutputOperation"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
