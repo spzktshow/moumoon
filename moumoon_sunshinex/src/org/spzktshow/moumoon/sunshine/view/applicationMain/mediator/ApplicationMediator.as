@@ -10,6 +10,8 @@ package org.spzktshow.moumoon.sunshine.view.applicationMain.mediator
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
 	import org.spzktshow.moumoon.sunshine.controller.file.FileCommand;
+	import org.spzktshow.moumoon.sunshine.controller.invoke.InvokeCommand;
+	import org.spzktshow.moumoon.sunshine.controller.keyboard.KeyboardCommand;
 	import org.spzktshow.moumoon.sunshine.controller.source.SourceCommand;
 	import org.spzktshow.moumoon.sunshine.core.uitls.FileCheck;
 	
@@ -24,6 +26,8 @@ package org.spzktshow.moumoon.sunshine.view.applicationMain.mediator
 		
 		override public function onRegister():void
 		{
+			this.sendNotification(InvokeCommand.INIT);
+			this.sendNotification(KeyboardCommand.INIT);
 		}
 		
 		override public function onRemove():void

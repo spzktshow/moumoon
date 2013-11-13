@@ -160,14 +160,17 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 //					roundFocusComponent(tempComponent, display as DisplayObjectContainer);
 //				}
 //			}
-			if (component.entity is DisplayObjectContainer && DisplayObjectContainer(component.entity).numChildren > 0)
+			if (component.entity is DisplayObjectContainer)
 			{
-				var n:int = DisplayObjectContainer(component.entity).numChildren;
-				for (var i:int = 0; i < n; i ++)
+				if (DisplayObjectContainer(component.entity).numChildren > 0)
 				{
-					var displayObject:DisplayObject = DisplayObjectContainer(component.entity).getChildAt(i);
-					var component:IListComponent = ComponentControlUtils.getComponentByName(_componentListCommandData.editorFile.componentGroup, displayObject.name) as IListComponent;
-					roundFocusComponent(component, display as DisplayObjectContainer);
+					var n:int = DisplayObjectContainer(component.entity).numChildren;
+					for (var i:int = 0; i < n; i ++)
+					{
+						var displayObject:DisplayObject = DisplayObjectContainer(component.entity).getChildAt(i);
+						var tempComponent:IListComponent = ComponentControlUtils.getComponentByName(_componentListCommandData.editorFile.componentGroup, displayObject.name) as IListComponent;
+						roundFocusComponent(tempComponent, display as DisplayObjectContainer);
+					}
 				}
 			}
 		}

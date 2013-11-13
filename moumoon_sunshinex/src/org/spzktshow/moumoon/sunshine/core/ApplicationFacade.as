@@ -5,6 +5,8 @@ package org.spzktshow.moumoon.sunshine.core
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommand;
 	import org.spzktshow.moumoon.sunshine.controller.file.FileCommand;
 	import org.spzktshow.moumoon.sunshine.controller.floatlayer.FloatLayerCommand;
+	import org.spzktshow.moumoon.sunshine.controller.invoke.InvokeCommand;
+	import org.spzktshow.moumoon.sunshine.controller.keyboard.KeyboardCommand;
 	import org.spzktshow.moumoon.sunshine.controller.source.SourceCommand;
 	
 	public class ApplicationFacade extends Facade
@@ -53,6 +55,12 @@ package org.spzktshow.moumoon.sunshine.core
 			
 			this.registerCommand(ComponentCommand.INIT, ComponentCommand);
 			this.registerCommand(ComponentCommand.UPDATE, ComponentCommand);
+			
+			this.registerCommand(InvokeCommand.INIT, InvokeCommand);
+			this.registerCommand(InvokeCommand.DISPOSE, InvokeCommand);
+			
+			this.registerCommand(KeyboardCommand.INIT, KeyboardCommand);
+			this.registerCommand(KeyboardCommand.DISPOSE, KeyboardCommand);
 		}
 		
 		public function start():void

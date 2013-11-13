@@ -34,6 +34,9 @@
 				_starling.addEventListener(starling.events.Event.ROOT_CREATED, onRootCreatedHandler);
 				_starling.start();
 				
+				stage.align = StageAlign.TOP_LEFT;
+				stage.scaleMode = StageScaleMode.NO_SCALE;
+				
 				stage.addEventListener(flash.events.Event.RESIZE, onResizeHandler);
 				removeEventListener(flash.events.Event.ADDED_TO_STAGE, onAddedToStage);
 			}
@@ -47,7 +50,7 @@
 				
 				var mediator:ApplicationMediator = new ApplicationMediator(this.stage);
 				_facade.registerMediator(mediator);
-				mediator.onRegister();
+				//mediator.onRegister();
 				
 				_starling.removeEventListener(starling.events.Event.ROOT_CREATED, onRootCreatedHandler);
 			}
@@ -56,6 +59,15 @@
 			{
 				_starling.viewPort.width = stage.stageWidth;
 				_starling.viewPort.height = stage.stageHeight;
+				/**如果最小化停止starling**/
+				if (stage.stageWidth == 0 && stage.stageHeight == 0)
+				{
+					_starling.stop();
+				}
+				else if (!_starling.isStarted)/**否则如果不是最小化,切starling停止了,starling启动**/
+				{
+					_starling.start();
+				}
 			}
 		]]>
 	</fx:Script>

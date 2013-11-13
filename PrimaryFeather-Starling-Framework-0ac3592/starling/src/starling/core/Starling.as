@@ -527,8 +527,17 @@ package starling.core
             
             if (!mShareContext)
             {
-                if (mStarted) nextFrame();
-                else          render();
+                if (mStarted)
+				{
+					nextFrame();
+				}
+                else 
+				{
+					if (mStage.stageWidth != 0 && mStage.stageHeight != 0)
+					{
+						render();	
+					}
+				}
             }
         }
         
