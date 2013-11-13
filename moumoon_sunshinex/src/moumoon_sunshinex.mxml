@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" width="1000" showStatusBar="false" height="600" backgroundAlpha="0" creationComplete="init()">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import org.spzktshow.moumoon.sunshine.core.ApplicationFacade;
+			import org.spzktshow.moumoon.sunshine.core.assets.Assets;
+			import org.spzktshow.moumoon.sunshine.view.applicationMain.mediator.ApplicationMainMediator;
+			import org.spzktshow.moumoon.sunshine.view.applicationMain.mediator.ApplicationMediator;
+			import org.spzktshow.moumoon.sunshine.view.applicationMain.ui.ApplicationMain;
+			
+			import starling.core.Starling;
+			import starling.events.Event;
+			
+			private var _starling:Starling;
+			
+			private var _facade:ApplicationFacade;
+			
+			private function init():void
+			{
+				addEventListener(flash.events.Event.ADDED_TO_STAGE, onAddedToStage);
+			}
+			
+			private function onAddedToStage(e:flash.events.Event):void
+			{
+				_facade = ApplicationFacade.getInstance();
+				_facade.start();
+				
+				_starling = new Starling(ApplicationMain, stage);
+				_starling.addEventListener(starling.events.Event.ROOT_CREATED, onRootCreatedHandler);
+				_starling.start();
+				
+				stage.addEventListener(flash.events.Event.RESIZE, onResizeHandler);
+				removeEventListener(flash.events.Event.ADDED_TO_STAGE, onAddedToStage);
+			}
+			
+			private function onRootCreatedHandler(e:starling.events.Event):void
+			{	
+				Assets.getInstance().registerGlobal();//初始化assets
+				
+				var applicationMediator:ApplicationMainMediator = new ApplicationMainMediator(e.data);
+				_facade.registerMediator(applicationMediator);
+				
+				var mediator:ApplicationMediator = new ApplicationMediator(this.stage);
+				_facade.registerMediator(mediator);
+				mediator.onRegister();
+				
+				_starling.removeEventListener(starling.events.Event.ROOT_CREATED, onRootCreatedHandler);
+			}
+			
+			private function onResizeHandler(e:flash.events.Event):void
+			{
+				_starling.viewPort.width = stage.stageWidth;
+				_starling.viewPort.height = stage.stageHeight;
+			}
+		]]>
+	</fx:Script>
+</s:WindowedApplication>
