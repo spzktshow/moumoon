@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="org.spzktshow.moumoon.component.IComponent"/>
+    <classEntry path="org.spzktshow.moumoon.component.utils.ComponentUtils"/>
+    <classEntry path="org.spzktshow.moumoon.component.enum.ComponentEnum"/>
+    <classEntry path="org.spzktshow.moumoon.component.enum.ComponentSourceTypeEnum"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentTemplate.ComponentTemplate"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentTemplate.IComponentTemplate"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentTemplate.enum.ComponentTemplateEnum"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentTemplate.componetProperty.ComponentProperty"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentTemplate.componetProperty.IComponentProperty"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentTemplate.enum.ComponentPropertyEnum"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentTemplate.IComponentTemplateOperation"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentTemplate.ComponentTemplateOperation"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentTemplate.componetProperty.ComponentPropertyUtils"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentValue.IComponentPropertyValue"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentValue.ComponentPropertyValue"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentValue.IComponentValueList"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentValue.ComponentValueList"/>
+    <classEntry path="org.spzktshow.moumoon.core.component.utils.ComponentControlUtils"/>
+    <classEntry path="org.spzktshow.moumoon.core.component.ComponentGroup"/>
+    <classEntry path="org.spzktshow.moumoon.core.component.IComponentGroup"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
