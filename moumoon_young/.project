@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>moumoon_young</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.adobe.flexbuilder.project.flexbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>[source path] MetalWorksMobileTheme-source</name>
+			<type>2</type>
+			<locationURI>DOCUMENTS/feahter-beta1.1/themes/MetalWorksMobileTheme/source</locationURI>
+		</link>
+		<link>
+			<name>[source path] assets</name>
+			<type>2</type>
+			<locationURI>DOCUMENTS/feahter-beta1.1/themes/MetalWorksMobileTheme/assets</locationURI>
+		</link>
+		<link>
+			<name>[source path] feahter-beta1.1-source</name>
+			<type>2</type>
+			<locationURI>DOCUMENTS/feahter-beta1.1/source</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>
