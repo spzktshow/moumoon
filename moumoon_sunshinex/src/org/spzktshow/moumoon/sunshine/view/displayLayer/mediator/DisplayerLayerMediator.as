@@ -166,8 +166,8 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 				for (var i:int = 0; i < n; i ++)
 				{
 					var displayObject:DisplayObject = DisplayObjectContainer(component.entity).getChildAt(i);
-					var component:IListComponent = ComponentControlUtils.getComponentByName(_componentListCommandData.editorFile.componentGroup, displayObject.name) as IListComponent;
-					roundFocusComponent(component, display as DisplayObjectContainer);
+					var tempComponent:IListComponent = ComponentControlUtils.getComponentByName(_componentListCommandData.editorFile.componentGroup, displayObject.name) as IListComponent;
+					roundFocusComponent(tempComponent, display as DisplayObjectContainer);
 				}
 			}
 		}

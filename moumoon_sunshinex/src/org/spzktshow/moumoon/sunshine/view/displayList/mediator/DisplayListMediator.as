@@ -175,18 +175,20 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		 */		
 		private function calculateComponentLayerCount(entirtyComponent:IComponent, currentComponent:IComponent):int
 		{
-			if (currentComponent.name == entirtyComponent.name)
+			var entirtyEntity:DisplayObject = entirtyComponent.entity;
+			var currentEntity:DisplayObject = currentComponent.entity;
+			if (currentEntity.name == entirtyEntity.name)
 			{
 				return 0;
 			}
 			var index:int = 1;
-			while(currentComponent.parent)
+			while(currentEntity.parent)
 			{
-				if (currentComponent.parent.name == entirtyComponent.name)
+				if (currentEntity.parent.name == entirtyEntity.name)
 				{
 					return index;
 				}
-				currentComponent = currentComponent.parent;
+				currentEntity = currentEntity.parent;
 				index ++;
 			}
 			return -1;

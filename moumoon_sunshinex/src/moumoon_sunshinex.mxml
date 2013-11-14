@@ -47,7 +47,6 @@
 				
 				var mediator:ApplicationMediator = new ApplicationMediator(this.stage);
 				_facade.registerMediator(mediator);
-				mediator.onRegister();
 				
 				_starling.removeEventListener(starling.events.Event.ROOT_CREATED, onRootCreatedHandler);
 			}
@@ -56,6 +55,18 @@
 			{
 				_starling.viewPort.width = stage.stageWidth;
 				_starling.viewPort.height = stage.stageHeight;
+				
+				if (stage.stageWidth == 0 && stage.stageHeight == 0)
+				{
+					_starling.stop();
+				}
+				else
+				{
+					if (!_starling.isStarted)
+					{
+						_starling.start();
+					}
+				}
 			}
 		]]>
 	</fx:Script>
