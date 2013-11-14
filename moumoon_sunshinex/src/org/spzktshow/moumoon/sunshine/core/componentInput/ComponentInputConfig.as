@@ -1,5 +1,6 @@
 package org.spzktshow.moumoon.sunshine.core.componentInput
 {
+	
 
 	/**
 	 *组件属性输入方式配置表 
@@ -37,6 +38,9 @@ package org.spzktshow.moumoon.sunshine.core.componentInput
 			_list.push(componentInput);
 			componentInput = new ComponentInput;
 			componentInput.type = ComponentInputEnum.TEXTURE;
+			_list.push(componentInput);
+			componentInput = new ComponentInput;
+			componentInput.type = ComponentInputEnum.CHECK_BOX;
 			_list.push(componentInput);
 		}
 		/**

@@ -17,5 +17,9 @@ package org.spzktshow.moumoon.sunshine.core.componentInput
 		 *图片输入 
 		 */		
 		public static const TEXTURE:String = "componentInputEnumTexture";
+		/**
+		 *单选框 
+		 */		
+		public static const CHECK_BOX:String = "componentInputEnumCheckBox";
 	}
 }

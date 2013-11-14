@@ -19,6 +19,8 @@ package org.spzktshow.moumoon.sunshine.core.proxy.touch
 		
 		protected var _isOver:Boolean;
 		
+		protected var _isLog:Boolean;
+		
 		public function TouchProxy(displayObject:DisplayObject)
 		{
 			_displayObject = displayObject;
@@ -26,6 +28,20 @@ package org.spzktshow.moumoon.sunshine.core.proxy.touch
 			addListeners();
 		}
 		
+		public function get isLog():Boolean
+		{
+			return _isLog;
+		}
+		/**
+		 *设置是否打印日志 
+		 * @param value
+		 * 
+		 */
+		public function set isLog(value:Boolean):void
+		{
+			_isLog = value;
+		}
+
 		public function get displayObject():DisplayObject
 		{
 			return _displayObject;
@@ -58,7 +74,10 @@ package org.spzktshow.moumoon.sunshine.core.proxy.touch
 				return;
 			}
 			var touch:Touch = e.touches[0];
-			trace ("touchHandler: " + touch.phase);
+			if (_isLog)
+			{
+				trace ("touchHandler: " + touch.phase);	
+			}
 			if (touch)
 			{
 				var mouseEvent:MouseEvent;
@@ -92,21 +111,30 @@ package org.spzktshow.moumoon.sunshine.core.proxy.touch
 				else if (touch.phase == TouchPhase.BEGAN)
 				{
 					//mouseDown
-					trace ("mouseDown");
+					if (_isLog)
+					{
+						trace ("mouseDown");
+					}
 					mouseEvent = new MouseEvent(MouseEvent.MOUSE_DOWN);
 					_displayObject.dispatchEvent(mouseEvent);
 				}
 				else if (touch.phase == TouchPhase.MOVED)
 				{
 					//mouseMove
-					trace ("mouseMove");
+					if (_isLog)
+					{
+						trace ("mouseMove");
+					}
 					mouseEvent = new MouseEvent(MouseEvent.MOUSE_MOVE);
 					_displayObject.dispatchEvent(mouseEvent);
 				}
 				else if (touch.phase == TouchPhase.ENDED)
 				{
 					//mouseUp
-					trace ("mouseUp");
+					if (_isLog)
+					{
+						trace ("mouseUp");
+					}
 					mouseEvent = new MouseEvent(MouseEvent.MOUSE_UP);
 					_displayObject.dispatchEvent(mouseEvent);
 					mouseEvent = new MouseEvent(MouseEvent.MOUSE_CLICK);

@@ -1,7 +1,5 @@
 package org.spzktshow.moumoon.sunshine.core.editorComponentTemplate
 {
-	import flash.net.getClassByAlias;
-	
 	import avmplus.getQualifiedClassName;
 	
 	import org.spzktshow.moumoon.core.componentTemplate.ComponentTemplate;

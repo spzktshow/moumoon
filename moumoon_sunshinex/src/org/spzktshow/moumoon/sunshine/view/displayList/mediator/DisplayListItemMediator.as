@@ -5,10 +5,12 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 	import org.puremvc.as3.patterns.mediator.Mediator;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommand;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommandData;
+	import org.spzktshow.moumoon.sunshine.core.assets.Assets;
 	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
 	import org.spzktshow.moumoon.sunshine.core.proxy.touch.MouseEvent;
 	import org.spzktshow.moumoon.sunshine.core.proxy.touch.TouchProxy;
 	
+	import starling.display.Image;
 	import starling.display.Sprite;
 
 	/**
@@ -18,11 +20,13 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 	 */	
 	public class DisplayListItemMediator extends Mediator
 	{	
-		protected var _touchProxy:TouchProxy;
-		
 		private var _component:IListComponent;
 		
 		private var _label:Label;//组件名称
+		private var _labelTouchProxy:TouchProxy;
+		
+		private var _eye:Image;//眼睛
+		private var _eyeTouchProxy:TouchProxy;
 		
 		public function DisplayListItemMediator(component:IListComponent, viewComponent:Object=null)
 		{
@@ -32,15 +36,27 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		
 		override public function onRemove():void
 		{
+			_labelTouchProxy.dispose();
+			_eyeTouchProxy.dispose();
+			
 			_label.removeEventListener(MouseEvent.MOUSE_CLICK, onMouseClickHandler);
-			_touchProxy.dispose();
+			_label = null;
+			_eye.addEventListener(MouseEvent.MOUSE_CLICK, onMouseClickEyeHandler);
+			_eye = null;
 		}
 		
 		override public function onRegister():void
 		{
 			_label = displayListItem.getChildByName(DisplayItemFactory.LABEL) as Label;
-			_touchProxy = new TouchProxy(_label);
 			_label.addEventListener(MouseEvent.MOUSE_CLICK, onMouseClickHandler);
+			
+			//eye visible
+			_eye = displayListItem.getChildByName(Assets.EYE) as Image;
+			_eye.addEventListener(MouseEvent.MOUSE_CLICK, onMouseClickEyeHandler);
+			_eye.useHandCursor = true;
+			
+			_labelTouchProxy = new TouchProxy(_label);
+			_eyeTouchProxy = new TouchProxy(_eye);
 		}
 		
 		protected function onMouseClickHandler(e:MouseEvent):void
@@ -50,6 +66,21 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 			this.sendNotification(ComponentListCommand.FOCUS, componentListCommandData);
 		}
 		
+		protected function onMouseClickEyeHandler(e:MouseEvent):void
+		{
+			if (_component.isView)
+			{
+				var componentListCommandData:ComponentListCommandData = new ComponentListCommandData;
+				componentListCommandData.componentName = _component.name;
+				this.sendNotification(ComponentListCommand.VISIBLE_FALSE, componentListCommandData);
+			}
+			else
+			{
+				componentListCommandData = new ComponentListCommandData;
+				componentListCommandData.componentName = _component.name;
+				this.sendNotification(ComponentListCommand.VISIBLE_TRUE, componentListCommandData);
+			}
+		}
 		/**
 		 *显示列表item 
 		 * @return 

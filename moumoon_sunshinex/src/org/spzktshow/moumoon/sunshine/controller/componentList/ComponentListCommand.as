@@ -85,6 +85,15 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 		public static const FOCUS_OPERATION_MOVE:String = "componentListCommandFocusOperationMove";
 		/**焦点操作更新*/
 		public static const FOCUS_OPREATION_REFRESHED:String = "componentListCommandFocuseOperationRefreshed";
+		/**
+		 *显示某个组件 
+		 */		
+		public static const VISIBLE_TRUE:String = "componentListCommandVisibleTrue";
+		/**
+		 *隐藏某个组件 
+		 */		
+		public static const VISIBLE_FALSE:String = "componentListCommandVisibleFalse";
+		
 		public function ComponentListCommand()
 		{
 			super();
@@ -217,6 +226,40 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 				rComponentListCommandData = notification.getBody() as ComponentListCommandData;
 				component = componentListModel.currentFocus;
 				operationFocusComponent(component, componentListModel, rComponentListCommandData);
+			}
+			else if (notification.getName() == VISIBLE_TRUE)
+			{
+				rComponentListCommandData = notification.getBody() as ComponentListCommandData;
+				componentListModel = facade.retrieveProxy(ComponentListModel.NAME) as ComponentListModel;
+				component = componentListModel.editorFile.componentGroup.getItem(rComponentListCommandData.componentName) as IListComponent;
+				if (component)
+				{
+					component.entity.visible = true;
+					component.isView = true;
+					sComponentListCommandData = new ComponentListCommandData;
+					sComponentListCommandData.focus = componentListModel.currentFocus;//当前的焦点组件
+					sComponentListCommandData.containerFocus = componentListModel.currentContainerFocus;//当前作为容器的焦点组件
+					sComponentListCommandData.component = componentListModel.editorFile.component;//当前的顶级组件
+					sComponentListCommandData.editorFile = componentListModel.editorFile;
+					sendNotification(ComponentListCommand.REFRESHED, sComponentListCommandData);
+				}
+			}
+			else if (notification.getName() == VISIBLE_FALSE)
+			{
+				rComponentListCommandData = notification.getBody() as ComponentListCommandData;
+				componentListModel = facade.retrieveProxy(ComponentListModel.NAME) as ComponentListModel;
+				component = componentListModel.editorFile.componentGroup.getItem(rComponentListCommandData.componentName) as IListComponent;
+				if (component)
+				{
+					component.isView = false;
+					component.entity.visible = false;
+					sComponentListCommandData = new ComponentListCommandData;
+					sComponentListCommandData.focus = componentListModel.currentFocus;//当前的焦点组件
+					sComponentListCommandData.containerFocus = componentListModel.currentContainerFocus;//当前作为容器的焦点组件
+					sComponentListCommandData.component = componentListModel.editorFile.component;//当前的顶级组件
+					sComponentListCommandData.editorFile = componentListModel.editorFile;
+					sendNotification(ComponentListCommand.REFRESHED, sComponentListCommandData);
+				}
 			}
 		}
 		/**

@@ -1,7 +1,6 @@
 package org.spzktshow.moumoon.sunshine.core.component.utils
 {
 	import org.spzktshow.moumoon.core.component.IComponentGroup;
-	import org.spzktshow.moumoon.core.componentTemplate.enum.ComponentTemplateEnum;
 	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
 	
 	import starling.display.DisplayObjectContainer;
