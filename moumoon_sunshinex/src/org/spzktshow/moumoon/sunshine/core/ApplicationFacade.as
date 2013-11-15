@@ -50,8 +50,7 @@ package org.spzktshow.moumoon.sunshine.core
 			this.registerCommand(ComponentListCommand.FOCUS, ComponentListCommand);
 			this.registerCommand(ComponentListCommand.ADD_CHILD, ComponentListCommand);
 			this.registerCommand(ComponentListCommand.FOCUS_OPERATION_MOVE, ComponentListCommand);
-			this.registerCommand(ComponentListCommand.VISIBLE_TRUE, ComponentListCommand);
-			this.registerCommand(ComponentListCommand.VISIBLE_FALSE, ComponentListCommand);
+			this.registerCommand(ComponentListCommand.COMPONENT_OPERATION_VISIBLE, ComponentListCommand);
 			
 			this.registerCommand(ComponentCommand.INIT, ComponentCommand);
 			this.registerCommand(ComponentCommand.UPDATE, ComponentCommand);

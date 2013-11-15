@@ -45,6 +45,10 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		 *旧的点 
 		 */		
 		private var _oldPoint:Point;
+		/**
+		 *这个列表很重要,他以一维的形式保存了,显示列表上所有的显示对象,这样方便了更改某个显示对象时不必遍历整个显示列表 
+		 */		
+		private var _displayCacheList:Vector.<DisplayObject>;
 		
 		public function DisplayerLayerMediator(viewComponent:Object=null)
 		{
@@ -53,6 +57,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		
 		override public function onRegister():void
 		{
+			_displayCacheList = new Vector.<DisplayObject>;
 			_displayLayerTouchProxy = new TouchProxy(displayLayer);
 			displayLayer.addEventListener(org.spzktshow.moumoon.sunshine.core.proxy.touch.MouseEvent.MOUSE_DOWN, onMouseDownHandler);
 		}
@@ -61,6 +66,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		{
 			displayLayer.removeEventListener(org.spzktshow.moumoon.sunshine.core.proxy.touch.MouseEvent.MOUSE_DOWN, onMouseDownHandler);
 			_displayLayerTouchProxy.dispose();
+			_displayCacheList = null;
 		}
 		
 		private function onMouseDownHandler(e:org.spzktshow.moumoon.sunshine.core.proxy.touch.MouseEvent):void
@@ -112,7 +118,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		
 		override public function listNotificationInterests():Array
 		{
-			return [ComponentListCommand.REFRESHED]
+			return [ComponentListCommand.REFRESHED, ComponentListCommand.COMPONENT_OPERATION_REFRESHED];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -129,6 +135,19 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 				
 				roundFocusComponent(_componentListCommandData.containerFocus, displayLayer);
 			}
+			else if (notification.getName() == ComponentListCommand.COMPONENT_OPERATION_REFRESHED)
+			{
+				sComponentListCommandData = notification.getBody() as ComponentListCommandData;
+				var displayObject:DisplayObject = this.getDisplayObjectFromCache(sComponentListCommandData.component.name);
+				if (displayObject)
+				{
+					ComponentDisplayFactory.filterComponent(sComponentListCommandData.component, displayObject);
+				}
+				else
+				{
+					throw new Error("operation component = null");
+				}
+			}
 		}
 		
 		/**
@@ -141,6 +160,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 			//
 			var display:DisplayObject = ComponentDisplayFactory.createComponent(component);
 			parent.addChild(display);
+			_displayCacheList.push(display);
 			if (component.isFocusBeContainer)
 			{
 				_currentContainerFocus = display;
@@ -170,6 +190,23 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 					roundFocusComponent(tempComponent, display as DisplayObjectContainer);
 				}
 			}
+		}
+		/**
+		 * 
+		 * @param name
+		 * @return 
+		 * 
+		 */		
+		protected function getDisplayObjectFromCache(name:String):DisplayObject
+		{
+			for each(var displayObject:DisplayObject in _displayCacheList)
+			{
+				if (displayObject.name == name)
+				{
+					return displayObject;
+				}
+			}
+			return null;
 		}
 		
 		public function get displayLayer():DisplayLayer

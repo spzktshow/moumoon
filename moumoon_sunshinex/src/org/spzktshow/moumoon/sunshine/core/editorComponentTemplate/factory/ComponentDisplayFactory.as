@@ -107,15 +107,15 @@ package org.spzktshow.moumoon.sunshine.core.editorComponentTemplate.factory
 			{
 				returnObject = new d(structurePropertsValues[0].propertyValue, structurePropertsValues[1].propertyValue, structurePropertsValues[2].propertyValue);
 			}
-			else if (structurePropertys.length == 1)
+			else if (structurePropertys.length == 4)
 			{
 				returnObject = new d(structurePropertsValues[0].propertyValue, structurePropertsValues[1].propertyValue, structurePropertsValues[2].propertyValue, structurePropertsValues[3].propertyValue);
 			}
-			else if (structurePropertys.length == 1)
+			else if (structurePropertys.length == 5)
 			{
 				returnObject = new d(structurePropertsValues[0].propertyValue, structurePropertsValues[1].propertyValue, structurePropertsValues[2].propertyValue, structurePropertsValues[3].propertyValue, structurePropertsValues[4].propertyValue);
 			}
-			else if (structurePropertys.length == 1)
+			else if (structurePropertys.length == 6)
 			{
 				returnObject = new d(structurePropertsValues[0].propertyValue, structurePropertsValues[1].propertyValue, structurePropertsValues[2].propertyValue, structurePropertsValues[3].propertyValue, structurePropertsValues[4].propertyValue, structurePropertsValues[5].propertyValue);
 			}
@@ -123,17 +123,26 @@ package org.spzktshow.moumoon.sunshine.core.editorComponentTemplate.factory
 			{
 				throw new Error("构造参数长度超出预估,请联系作者");
 			}
+			filterComponent(component, returnObject);
+			returnObject.name = component.name;
+			return returnObject as DisplayObject;
+		}
+		/**
+		 *将属性赋值到显示实体上 
+		 * @param component
+		 * 
+		 */		
+		public static function filterComponent(component:IComponent, displayObject:DisplayObject):void
+		{
 			//赋值需要的参数
-			for each(componentProperty in component.componentTemplate.componentPropertys)
+			for each(var componentProperty:IComponentProperty in component.componentTemplate.componentPropertys)
 			{
 				if (!componentProperty.isStructureDepend)
 				{
-					componentPropertyValue = component.componentValueList.getItem(componentProperty.name) as IComponentPropertyValue;
-					returnObject[componentProperty.name] = componentPropertyValue.propertyValue;
+					var componentPropertyValue:IComponentPropertyValue = component.componentValueList.getItem(componentProperty.name) as IComponentPropertyValue;
+					displayObject[componentProperty.name] = componentPropertyValue.propertyValue;
 				}
 			}
-			returnObject.name = component.name;
-			return returnObject as DisplayObject;
 		}
 		
 		public static function createAuto(componentTemplate:IComponentTemplate):DisplayObject

@@ -3,6 +3,9 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 	import feathers.controls.Label;
 	
 	import org.puremvc.as3.patterns.mediator.Mediator;
+	import org.spzktshow.moumoon.core.componentTemplate.configData.ComponentPropertyEnum;
+	import org.spzktshow.moumoon.core.componentValue.ComponentPropertyValue;
+	import org.spzktshow.moumoon.core.componentValue.ComponentValueList;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommand;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommandData;
 	import org.spzktshow.moumoon.sunshine.core.assets.Assets;
@@ -41,7 +44,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 			
 			_label.removeEventListener(MouseEvent.MOUSE_CLICK, onMouseClickHandler);
 			_label = null;
-			_eye.addEventListener(MouseEvent.MOUSE_CLICK, onMouseClickEyeHandler);
+			_eye.removeEventListener(MouseEvent.MOUSE_CLICK, onMouseClickEyeHandler);
 			_eye = null;
 		}
 		
@@ -68,18 +71,22 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		
 		protected function onMouseClickEyeHandler(e:MouseEvent):void
 		{
+			var sCommandListData:ComponentListCommandData = new ComponentListCommandData;
+			sCommandListData.componentName = _component.name;
+			var componentPropertyValueList:ComponentValueList = new ComponentValueList;
+			var componentPropertyValue:ComponentPropertyValue = new ComponentPropertyValue;
+			componentPropertyValue.name = ComponentPropertyEnum.VISIBLE;
 			if (_component.isView)
 			{
-				var componentListCommandData:ComponentListCommandData = new ComponentListCommandData;
-				componentListCommandData.componentName = _component.name;
-				this.sendNotification(ComponentListCommand.VISIBLE_FALSE, componentListCommandData);
+				componentPropertyValue.propertyValue = false;
 			}
 			else
 			{
-				componentListCommandData = new ComponentListCommandData;
-				componentListCommandData.componentName = _component.name;
-				this.sendNotification(ComponentListCommand.VISIBLE_TRUE, componentListCommandData);
+				componentPropertyValue.propertyValue = true;
 			}
+			componentPropertyValueList.addItem(componentPropertyValue);
+			sCommandListData.componentPropertyValueList = componentPropertyValueList;
+			sendNotification(ComponentListCommand.COMPONENT_OPERATION_VISIBLE, sCommandListData);
 		}
 		/**
 		 *显示列表item 

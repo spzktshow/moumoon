@@ -29,5 +29,9 @@ package org.spzktshow.moumoon.core.componentTemplate.configData
 		 *texture 
 		 */		
 		public static const TEXTURE:String = "texture";
+		/**
+		 *visible
+		 */
+		public static const VISIBLE:String = "visible";
 	}
 }

@@ -83,16 +83,18 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 		 *焦点组件操作,移动 
 		 */		
 		public static const FOCUS_OPERATION_MOVE:String = "componentListCommandFocusOperationMove";
-		/**焦点操作更新*/
+		/**
+		 * 焦点操作更新
+		 * */
 		public static const FOCUS_OPREATION_REFRESHED:String = "componentListCommandFocuseOperationRefreshed";
 		/**
 		 *显示某个组件 
 		 */		
-		public static const VISIBLE_TRUE:String = "componentListCommandVisibleTrue";
+		public static const COMPONENT_OPERATION_VISIBLE:String = "componentListCommandComponentOperationVisible";
 		/**
-		 *隐藏某个组件 
+		 *组件操作更新 
 		 */		
-		public static const VISIBLE_FALSE:String = "componentListCommandVisibleFalse";
+		public static const COMPONENT_OPERATION_REFRESHED:String = "componentListCommandComponentOperationRefreshed";
 		
 		public function ComponentListCommand()
 		{
@@ -214,7 +216,6 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 				
 				var componentModel:ComponentModel = facade.retrieveProxy(ComponentModel.NAME) as ComponentModel;
 				//addChild
-//				ComponentUtils.addChild(component, componentListModel.currentContainerFocus);
 				ComponentControlUtils.addChild(componentListModel.editorFile.componentGroup, component, componentListModel.currentContainerFocus);
 				
 				sendNotification(ComponentListCommand.ADDED_CHILD, sComponentListCommandData);
@@ -224,54 +225,41 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 			{
 				componentListModel = facade.retrieveProxy(ComponentListModel.NAME) as ComponentListModel;
 				rComponentListCommandData = notification.getBody() as ComponentListCommandData;
-				component = componentListModel.currentFocus;
-				operationFocusComponent(component, componentListModel, rComponentListCommandData);
+				operationFocus(componentListModel, rComponentListCommandData);
 			}
-			else if (notification.getName() == VISIBLE_TRUE)
+			else if (notification.getName() == COMPONENT_OPERATION_VISIBLE)
 			{
-				rComponentListCommandData = notification.getBody() as ComponentListCommandData;
 				componentListModel = facade.retrieveProxy(ComponentListModel.NAME) as ComponentListModel;
-				component = componentListModel.editorFile.componentGroup.getItem(rComponentListCommandData.componentName) as IListComponent;
-				if (component)
-				{
-					component.entity.visible = true;
-					component.isView = true;
-					sComponentListCommandData = new ComponentListCommandData;
-					sComponentListCommandData.focus = componentListModel.currentFocus;//当前的焦点组件
-					sComponentListCommandData.containerFocus = componentListModel.currentContainerFocus;//当前作为容器的焦点组件
-					sComponentListCommandData.component = componentListModel.editorFile.component;//当前的顶级组件
-					sComponentListCommandData.editorFile = componentListModel.editorFile;
-					sendNotification(ComponentListCommand.REFRESHED, sComponentListCommandData);
-				}
-			}
-			else if (notification.getName() == VISIBLE_FALSE)
-			{
 				rComponentListCommandData = notification.getBody() as ComponentListCommandData;
-				componentListModel = facade.retrieveProxy(ComponentListModel.NAME) as ComponentListModel;
 				component = componentListModel.editorFile.componentGroup.getItem(rComponentListCommandData.componentName) as IListComponent;
-				if (component)
-				{
-					component.isView = false;
-					component.entity.visible = false;
-					sComponentListCommandData = new ComponentListCommandData;
-					sComponentListCommandData.focus = componentListModel.currentFocus;//当前的焦点组件
-					sComponentListCommandData.containerFocus = componentListModel.currentContainerFocus;//当前作为容器的焦点组件
-					sComponentListCommandData.component = componentListModel.editorFile.component;//当前的顶级组件
-					sComponentListCommandData.editorFile = componentListModel.editorFile;
-					sendNotification(ComponentListCommand.REFRESHED, sComponentListCommandData);
-				}
+				operationComponent(component, componentListModel, rComponentListCommandData);
 			}
 		}
 		/**
-		 *操作焦点 
+		 *操作组件
 		 * @param component
 		 * @param componentListModel
 		 * @param rComponentListCommandData
 		 * 
 		 */		
-		private function operationFocusComponent(component:IListComponent, componentListModel:ComponentListModel, rComponentListCommandData:ComponentListCommandData):void
+		private function operationComponent(component:IListComponent, componentListModel:ComponentListModel, rComponentListCommandData:ComponentListCommandData):void
 		{
-			ComponentValueListFactory.mix(component, rComponentListCommandData.componentPropertyValueList);
+			ComponentValueListFactory.mix(component, rComponentListCommandData.componentPropertyValueList);	
+			var sComponentListCommandData:ComponentListCommandData = new ComponentListCommandData;
+			sComponentListCommandData.component = component;
+			sComponentListCommandData.componentPropertyValueList = rComponentListCommandData.componentPropertyValueList;
+			sendNotification(ComponentListCommand.COMPONENT_OPERATION_REFRESHED, sComponentListCommandData);
+		}
+		/**
+		 * 操作焦点组件
+		 * @param componentListModel
+		 * @param rComponentListCommandData
+		 * 
+		 */		
+		private function operationFocus(componentListModel:ComponentListModel, rComponentListCommandData:ComponentListCommandData):void
+		{
+			var component:IListComponent = componentListModel.currentFocus;
+			operationComponent(component, componentListModel, rComponentListCommandData);
 			var sComponentListCommandData:ComponentListCommandData = new ComponentListCommandData;
 			sComponentListCommandData.focus = component;
 			sComponentListCommandData.componentPropertyValueList = rComponentListCommandData.componentPropertyValueList;

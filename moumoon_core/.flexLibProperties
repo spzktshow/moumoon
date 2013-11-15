@@ -10,7 +10,6 @@
     <classEntry path="org.spzktshow.moumoon.core.componentTemplate.enum.ComponentTemplateEnum"/>
     <classEntry path="org.spzktshow.moumoon.core.componentTemplate.componetProperty.ComponentProperty"/>
     <classEntry path="org.spzktshow.moumoon.core.componentTemplate.componetProperty.IComponentProperty"/>
-    <classEntry path="org.spzktshow.moumoon.core.componentTemplate.enum.ComponentPropertyEnum"/>
     <classEntry path="org.spzktshow.moumoon.core.componentTemplate.IComponentTemplateOperation"/>
     <classEntry path="org.spzktshow.moumoon.core.componentTemplate.ComponentTemplateOperation"/>
     <classEntry path="org.spzktshow.moumoon.core.componentTemplate.componetProperty.ComponentPropertyUtils"/>

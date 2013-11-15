@@ -5,7 +5,7 @@ package org.spzktshow.moumoon.sunshine.core.editorComponentTemplate
 	import org.spzktshow.moumoon.core.componentTemplate.ComponentTemplate;
 	import org.spzktshow.moumoon.core.componentTemplate.ComponentTemplateOperation;
 	import org.spzktshow.moumoon.core.componentTemplate.componetProperty.IComponentProperty;
-	import org.spzktshow.moumoon.core.componentTemplate.enum.ComponentPropertyEnum;
+	import org.spzktshow.moumoon.core.componentTemplate.configData.ComponentPropertyEnum;
 	import org.spzktshow.moumoon.core.componentTemplate.enum.ComponentTemplateEnum;
 	import org.spzktshow.moumoon.core.componentValue.ComponentPropertyValue;
 	import org.spzktshow.moumoon.sunshine.core.componentInput.ComponentInputConfig;
@@ -75,6 +75,15 @@ package org.spzktshow.moumoon.sunshine.core.editorComponentTemplate
 			defaultPropertyValue.propertyValue = null;
 			cp.defaultValue = defaultPropertyValue;
 			list.push(cp);
+			cp = new EditorComponentProperty;
+			cp.name = ComponentPropertyEnum.VISIBLE;
+			cp.isStructureDepend = false;
+			cp.input = ComponentInputConfig.getInstance().getComponentInput(ComponentInputEnum.CHECK_BOX);
+			defaultPropertyValue = new ComponentPropertyValue;
+			defaultPropertyValue.name = cp.name;
+			defaultPropertyValue.propertyValue = true;
+			cp.defaultValue = defaultPropertyValue;
+			list.push(cp);
 			componentTemplate.componentPropertys = list;
 			addItem(componentTemplate);
 			
@@ -101,6 +110,15 @@ package org.spzktshow.moumoon.sunshine.core.editorComponentTemplate
 			defaultPropertyValue = new ComponentPropertyValue;
 			defaultPropertyValue.name = cp.name;
 			defaultPropertyValue.propertyValue = 0;
+			cp.defaultValue = defaultPropertyValue;
+			list.push(cp);
+			cp = new EditorComponentProperty;
+			cp.name = ComponentPropertyEnum.VISIBLE;
+			cp.isStructureDepend = false;
+			cp.input = ComponentInputConfig.getInstance().getComponentInput(ComponentInputEnum.CHECK_BOX);
+			defaultPropertyValue = new ComponentPropertyValue;
+			defaultPropertyValue.name = cp.name;
+			defaultPropertyValue.propertyValue = true;
 			cp.defaultValue = defaultPropertyValue;
 			list.push(cp);
 			componentTemplate.componentPropertys = list;
