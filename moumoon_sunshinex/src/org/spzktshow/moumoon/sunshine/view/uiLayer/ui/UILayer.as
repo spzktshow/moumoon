@@ -5,8 +5,10 @@ package org.spzktshow.moumoon.sunshine.view.uiLayer.ui
 	
 	import org.spzktshow.moumoon.sunshine.core.ApplicationFacade;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.mediator.DisplayerLayerMediator;
+	import org.spzktshow.moumoon.sunshine.view.displayLayer.mediator.FocusPointLayerMediator;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.mediator.UnFocusDisplayLayerMediator;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.DisplayLayer;
+	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.FocusPointLayer;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.UnFocusDisplayLayer;
 	import org.spzktshow.moumoon.sunshine.view.displayList.mediator.DisplayListMediator;
 	import org.spzktshow.moumoon.sunshine.view.fileBar.mediator.FileBarMediator;
@@ -52,6 +54,10 @@ package org.spzktshow.moumoon.sunshine.view.uiLayer.ui
 		 */		
 		private var _floatLayer:FloatLayer;
 		/**
+		 * 焦点显示层
+		 * */
+		private var _focusPointLayer:FocusPointLayer;
+		/**
 		 *显示层 
 		 */		
 		private var _displayLayer:DisplayLayer;
@@ -71,6 +77,11 @@ package org.spzktshow.moumoon.sunshine.view.uiLayer.ui
 			ApplicationFacade.getInstance().removeMediator(FeatureMenuMediator.NAME);
 			ApplicationFacade.getInstance().removeMediator(FileBarMediator.NAME);
 			ApplicationFacade.getInstance().removeMediator(LeftWorkGroupMediator.NAME);
+			ApplicationFacade.getInstance().removeMediator(FocusPointLayerMediator.NAME);
+			ApplicationFacade.getInstance().removeMediator(UnFocusDisplayLayerMediator.NAME);
+			ApplicationFacade.getInstance().removeMediator(FileBarMediator.NAME);
+			ApplicationFacade.getInstance().removeMediator(RightWorkGroupMediator.NAME);
+			ApplicationFacade.getInstance().removeMediator(FloatlayerMediator.NAME);
 		}
 		
 		override protected function initialize():void
@@ -85,13 +96,6 @@ package org.spzktshow.moumoon.sunshine.view.uiLayer.ui
 			var displayLayerMediator:DisplayerLayerMediator = new DisplayerLayerMediator(_displayLayer);
 			ApplicationFacade.getInstance().registerMediator(displayLayerMediator);
 			
-//			_sourcePanel = new Panel();
-//			_sourcePanel.width = 200;
-//			_sourcePanel.headerProperties.title = "source";
-//			addChild(_sourcePanel);
-//			
-//			var sourcePanelMediator:SourcePanelMediator = new SourcePanelMediator(_sourcePanel);
-//			ApplicationFacade.getInstance().registerMediator(sourcePanelMediator);
 			_leftWorkGroup = new LeftWorkGroup;
 			_leftWorkGroup.width = 200;
 			addChild(_leftWorkGroup);
@@ -127,6 +131,11 @@ package org.spzktshow.moumoon.sunshine.view.uiLayer.ui
 			addChild(_rightWorkGroup);
 			var rightWorkGroupMediator:RightWorkGroupMediator = new RightWorkGroupMediator(_rightWorkGroup);
 			ApplicationFacade.getInstance().registerMediator(rightWorkGroupMediator);
+			
+			_focusPointLayer = new FocusPointLayer;
+			addChild(_focusPointLayer);
+			var focusPointLayerMediator:FocusPointLayerMediator = new FocusPointLayerMediator(_focusPointLayer);
+			ApplicationFacade.getInstance().registerMediator(focusPointLayerMediator);
 			
 			_floatLayer = new FloatLayer;
 			addChild(_floatLayer);

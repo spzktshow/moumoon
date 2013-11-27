@@ -5,7 +5,6 @@ package org.spzktshow.moumoon.sunshine.view.floatLayer.mediator
 	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
-	import org.spzktshow.moumoon.core.component.enum.ComponentSourceTypeEnum;
 	import org.spzktshow.moumoon.core.componentTemplate.configData.ComponentPropertyEnum;
 	import org.spzktshow.moumoon.core.componentTemplate.enum.ComponentTemplateEnum;
 	import org.spzktshow.moumoon.core.componentValue.ComponentPropertyValue;

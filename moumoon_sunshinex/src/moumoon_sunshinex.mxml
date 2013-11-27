@@ -29,7 +29,6 @@
 			{
 				_facade = ApplicationFacade.getInstance();
 				_facade.start();
-				
 				_starling = new Starling(ApplicationMain, stage);
 				_starling.addEventListener(starling.events.Event.ROOT_CREATED, onRootCreatedHandler);
 				_starling.start();
@@ -40,8 +39,6 @@
 			
 			private function onRootCreatedHandler(e:starling.events.Event):void
 			{	
-				Assets.getInstance().registerGlobal();//初始化assets
-				
 				var applicationMediator:ApplicationMainMediator = new ApplicationMainMediator(e.data);
 				_facade.registerMediator(applicationMediator);
 				

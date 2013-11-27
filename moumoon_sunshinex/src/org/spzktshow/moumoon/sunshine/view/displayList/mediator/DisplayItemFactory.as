@@ -27,7 +27,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		
 		public static var LOCK:Texture = Assets.getInstance().iconSource.getTexture(Assets.LOCK);
 		
-		private static var EYE:Texture = Assets.getInstance().iconSource.getTexture(Assets.EYE);
+		public static var EYE:Texture = Assets.getInstance().iconSource.getTexture(Assets.EYE);
 		
 		private static var IS_OPEN:Texture = Assets.getInstance().iconSource.getTexture(Assets.IS_OPEN);
 		

@@ -3,6 +3,7 @@ package org.spzktshow.moumoon.sunshine.view.applicationMain.ui
 	import feathers.core.FeathersControl;
 	import feathers.system.DeviceCapabilities;
 	
+	import org.spzktshow.moumoon.sunshine.core.assets.Assets;
 	import org.spzktshow.moumoon.sunshine.view.uiLayer.ui.UILayer;
 	import org.spzktshow.moumoon.young.core.YoungControl;
 	import org.spzktshow.moumoon.young.theme.MoumoonYoungTheme;
@@ -38,14 +39,9 @@ package org.spzktshow.moumoon.sunshine.view.applicationMain.ui
 		{
 			DeviceCapabilities.dpi = 144;
 			_theme = new MoumoonYoungTheme(stage);
+			Assets.getInstance().registerGlobal();//初始化assets
 			_uiLayer = new UILayer;
 			this.addChild(_uiLayer);
-			
-//			Assets.getInstance().registerGlobal();
-//			var item:Sprite = DisplayItemFactory.createTitle();
-//			this.addChild(item);
-//			item.addEventListener(TouchEvent.TOUCH, onTouchHandler);
-//			stage.addEventListener(TouchEvent.TOUCH, onTouchHandler);
 			super.initialize();
 		}
 		

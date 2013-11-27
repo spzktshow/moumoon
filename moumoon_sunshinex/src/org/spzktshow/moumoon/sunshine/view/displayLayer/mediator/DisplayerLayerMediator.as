@@ -169,17 +169,6 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 			{
 				_currentFocus = display;
 			}
-//			var oldPoint:Point = new Point(Number(IComponentPropertyValue(component.componentValueList.getItem(ComponentPropertyEnum.X)).propertyValue), Number(IComponentPropertyValue(component.componentValueList.getItem(ComponentPropertyEnum.Y)).propertyValue));
-//			var point:Point = parent.globalToLocal(oldPoint);
-//			display.x = point.x;
-//			display.y = point.y;
-//			if (component.children && component.children.length > 0)
-//			{
-//				for each(var tempComponent:IListComponent in component.children)
-//				{
-//					roundFocusComponent(tempComponent, display as DisplayObjectContainer);
-//				}
-//			}
 			if (component.entity is DisplayObjectContainer && DisplayObjectContainer(component.entity).numChildren > 0)
 			{
 				var n:int = DisplayObjectContainer(component.entity).numChildren;
