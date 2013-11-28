@@ -20,6 +20,7 @@
     <classEntry path="org.spzktshow.moumoon.core.component.utils.ComponentControlUtils"/>
     <classEntry path="org.spzktshow.moumoon.core.component.ComponentGroup"/>
     <classEntry path="org.spzktshow.moumoon.core.component.IComponentGroup"/>
+    <classEntry path="org.spzktshow.moumoon.core.componentValue.ComponentPropertyValueUtils"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

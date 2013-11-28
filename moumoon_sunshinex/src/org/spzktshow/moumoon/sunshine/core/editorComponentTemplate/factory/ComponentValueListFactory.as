@@ -61,6 +61,7 @@ package org.spzktshow.moumoon.sunshine.core.editorComponentTemplate.factory
 				{
 					component.componentValueList.addItem(componentPropertyValue);
 				}
+				component.entity[componentPropertyValue.name] = componentPropertyValue.propertyValue;
 			}
 		}
 	}

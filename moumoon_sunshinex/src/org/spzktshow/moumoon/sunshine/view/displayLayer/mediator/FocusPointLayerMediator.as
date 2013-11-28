@@ -4,10 +4,14 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
+	import org.spzktshow.moumoon.core.componentTemplate.configData.ComponentPropertyEnum;
+	import org.spzktshow.moumoon.core.componentValue.ComponentPropertyValueUtils;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommand;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommandData;
 	import org.spzktshow.moumoon.sunshine.controller.file.FileCommand;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.FocusPointLayer;
+	
+	import starling.display.DisplayObjectContainer;
 	
 	public class FocusPointLayerMediator extends Mediator
 	{
@@ -25,7 +29,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		
 		override public function listNotificationInterests():Array
 		{
-			return [ComponentListCommand.REFRESHED, FileCommand.FILE_UNEMPTY, FileCommand.FILE_EMPTY];
+			return [ComponentListCommand.REFRESHED, FileCommand.FILE_UNEMPTY, FileCommand.FILE_EMPTY, ComponentListCommand.FOCUS_OPREATION_REFRESHED];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -46,6 +50,22 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 			else if (notification.getName() == FileCommand.FILE_EMPTY)
 			{
 				focusPointLayer.visible = false;
+			}
+			else if (notification.getName() == ComponentListCommand.FOCUS_OPREATION_REFRESHED)
+			{
+				sComponentListCommandData = notification.getBody() as ComponentListCommandData;
+				if (sComponentListCommandData.focus.entity is DisplayObjectContainer)
+				{
+					if (ComponentPropertyValueUtils.checkHasProperty(ComponentPropertyEnum.X, sComponentListCommandData.componentPropertyValueList)
+						|| ComponentPropertyValueUtils.checkHasProperty(ComponentPropertyEnum.Y, sComponentListCommandData.componentPropertyValueList))
+					{
+						containerGlobalPoint = new Point(0, 0);
+						containerGlobalPoint = sComponentListCommandData.focus.entity.localToGlobal(containerGlobalPoint, containerGlobalPoint);
+						containerGlobalPoint = focusPointLayer.globalToLocal(containerGlobalPoint, containerGlobalPoint);
+						focusPointLayer.focusPoint.x = containerGlobalPoint.x;
+						focusPointLayer.focusPoint.y = containerGlobalPoint.y;
+					}
+				}
 			}
 		}
 		

@@ -207,7 +207,7 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 					textureComponentProperty.propertyValue = localPoint.x;
 				}
 				textureComponentProperty = component.componentValueList.getItem(ComponentPropertyEnum.Y) as IComponentPropertyValue;
-				if (textureComponentProperty)//x
+				if (textureComponentProperty)//y
 				{
 					textureComponentProperty.propertyValue = localPoint.y;
 				}

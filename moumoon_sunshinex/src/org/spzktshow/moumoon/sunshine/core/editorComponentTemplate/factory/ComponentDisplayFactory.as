@@ -123,6 +123,7 @@ package org.spzktshow.moumoon.sunshine.core.editorComponentTemplate.factory
 			{
 				throw new Error("构造参数长度超出预估,请联系作者");
 			}
+			
 			filterComponent(component, returnObject);
 			returnObject.name = component.name;
 			return returnObject as DisplayObject;

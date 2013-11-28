@@ -9,6 +9,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 	import org.spzktshow.moumoon.core.componentTemplate.configData.ComponentPropertyEnum;
 	import org.spzktshow.moumoon.core.componentValue.ComponentPropertyValue;
 	import org.spzktshow.moumoon.core.componentValue.ComponentValueList;
+	import org.spzktshow.moumoon.core.componentValue.IComponentPropertyValue;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommand;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommandData;
 	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
@@ -164,6 +165,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 			if (component.isFocusBeContainer)
 			{
 				_currentContainerFocus = display;
+				fileFocusBeContainerPoint(component);
 			}
 			if (component.isFocus)
 			{
@@ -179,6 +181,14 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 					roundFocusComponent(tempComponent, display as DisplayObjectContainer);
 				}
 			}
+		}
+		
+		protected function fileFocusBeContainerPoint(component:IListComponent):void
+		{
+			var point:Point = new Point(0, 0);
+			component.entity.localToGlobal(point, point);
+			_currentContainerFocus.x = point.x;
+			_currentContainerFocus.y = point.y;
 		}
 		/**
 		 * 
