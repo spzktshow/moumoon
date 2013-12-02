@@ -23,6 +23,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>[source path] LoaderSolution-src</name>
+			<type>2</type>
+			<location>/Users/rocklee/Documents/FlashPro/LoaderSolution/src</location>
+		</link>
+		<link>
 			<name>[source path] MetalWorksMobileTheme-source</name>
 			<type>2</type>
 			<locationURI>DOCUMENTS/feather/themes/MetalWorksMobileTheme/source</locationURI>
@@ -41,11 +46,6 @@
 			<name>[source path] moumoon_young-src</name>
 			<type>2</type>
 			<locationURI>DOCUMENTS/moumoon_young/src</locationURI>
-		</link>
-		<link>
-			<name>[source path] spzktshowloadersoluction-src</name>
-			<type>2</type>
-			<location>D:/FlashPro4.7/spzktshowloadersoluction/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

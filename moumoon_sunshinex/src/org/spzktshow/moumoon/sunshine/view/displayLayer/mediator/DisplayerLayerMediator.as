@@ -185,6 +185,10 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 					var displayObject:DisplayObject = DisplayObjectContainer(component.entity).getChildAt(i);
 					var tempComponent:IListComponent = ComponentControlUtils.getComponentByName(_componentListCommandData.editorFile.componentGroup, displayObject.name) as IListComponent;
 					roundFocusComponent(tempComponent, display as DisplayObjectContainer);
+					if (tempComponent.isFocus)
+					{
+						break;
+					}
 				}
 			}
 		}

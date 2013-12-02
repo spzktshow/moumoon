@@ -8,7 +8,6 @@
 	<fx:Script>
 		<![CDATA[
 			import org.spzktshow.moumoon.sunshine.core.ApplicationFacade;
-			import org.spzktshow.moumoon.sunshine.core.assets.Assets;
 			import org.spzktshow.moumoon.sunshine.view.applicationMain.mediator.ApplicationMainMediator;
 			import org.spzktshow.moumoon.sunshine.view.applicationMain.mediator.ApplicationMediator;
 			import org.spzktshow.moumoon.sunshine.view.applicationMain.ui.ApplicationMain;

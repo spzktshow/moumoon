@@ -6,7 +6,7 @@
       <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/feather/themes/MetalWorksMobileTheme/assets"/>
       <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/feather/themes/MetalWorksMobileTheme/source"/>
       <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/moumoon_young/src"/>
-      <compilerSourcePathEntry kind="1" linkType="1" path="D:/FlashPro4.7/spzktshowloadersoluction/src"/>
+      <compilerSourcePathEntry kind="1" linkType="1" path="/Users/rocklee/Documents/FlashPro/LoaderSolution/src"/>
     </compilerSourcePath>
     <libraryPath defaultLinkType="1">
       <libraryPathEntry kind="4" path="">
@@ -15,11 +15,10 @@
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
         </excludedEntries>
       </libraryPathEntry>
-      <libraryPathEntry kind="1" linkType="1" path="libs"/>
       <libraryPathEntry kind="3" linkType="1" path="/fileAbstractLibs/bin/fileAbstractLibs.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/moumoon_core/bin/moumoon_core.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/PureMVC_AS3_2_0_4/bin/PureMVC_AS3_2_0_4.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="/Starling/bin-debug/Starling.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="1" linkType="1" path="${DOCUMENTS}/PrimaryFeather-Starling-Framework-0ac3592/starling/bin"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -46,4 +45,3 @@
     </buildTarget>
   </buildTargets>
 </actionScriptProperties>
-

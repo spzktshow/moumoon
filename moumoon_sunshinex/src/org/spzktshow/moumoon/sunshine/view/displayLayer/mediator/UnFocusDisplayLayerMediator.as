@@ -47,25 +47,14 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		 */		
 		protected function roundUnFocusComponent(component:IListComponent, parent:DisplayObjectContainer):void
 		{
-			if (component.isFocusBeContainer) return;
 			var display:DisplayObject = ComponentDisplayFactory.createComponent(component);
 			parent.addChild(display);
-//			var oldPoint:Point = new Point(Number(IComponentPropertyValue(component.componentValueList.getItem(ComponentPropertyEnum.X)).propertyValue), Number(IComponentPropertyValue(component.componentValueList.getItem(ComponentPropertyEnum.Y)).propertyValue));
-//			var point:Point = parent.globalToLocal(oldPoint);
-//			display.x = point.x;
-//			display.y = point.y;
-//			if (component.children && component.children.length > 0)
-//			{
-//				for each(var tempComponent:IListComponent in component.children)
-//				{
-//					roundUnFocusComponent(tempComponent, display as DisplayObjectContainer);
-//				}
-//			}
 			if (component.entity is DisplayObjectContainer && DisplayObjectContainer(component.entity).numChildren > 0)
 			{
 				var n:int = DisplayObjectContainer(component.entity).numChildren;
 				for (var i:int = 0; i < n; i ++)
 				{
+					if (component.isFocus) continue;
 					var displayObject:DisplayObject = DisplayObjectContainer(component.entity).getChildAt(i);
 					var tempcomponent:IListComponent = ComponentControlUtils.getComponentByName(_componentListCommandData.editorFile.componentGroup, displayObject.name) as IListComponent;
 					roundUnFocusComponent(tempcomponent, display as DisplayObjectContainer);
