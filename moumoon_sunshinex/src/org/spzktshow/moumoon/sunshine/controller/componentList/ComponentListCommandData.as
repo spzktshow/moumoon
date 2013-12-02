@@ -2,7 +2,6 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 {
 	import flash.geom.Point;
 	
-	import org.spzktshow.moumoon.core.component.IComponent;
 	import org.spzktshow.moumoon.core.componentValue.IComponentValueList;
 	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
 	import org.spzktshow.moumoon.sunshine.core.file.IEditorFile;
@@ -24,7 +23,7 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 		/**
 		 *组件数据结构 
 		 */		
-		public var component:IComponent;
+		public var component:IListComponent;
 		/**
 		 *当前焦点的容器 
 		 */		

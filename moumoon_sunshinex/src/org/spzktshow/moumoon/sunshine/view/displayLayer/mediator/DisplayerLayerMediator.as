@@ -9,7 +9,6 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 	import org.spzktshow.moumoon.core.componentTemplate.configData.ComponentPropertyEnum;
 	import org.spzktshow.moumoon.core.componentValue.ComponentPropertyValue;
 	import org.spzktshow.moumoon.core.componentValue.ComponentValueList;
-	import org.spzktshow.moumoon.core.componentValue.IComponentPropertyValue;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommand;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommandData;
 	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
@@ -103,15 +102,18 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		{
 			Starling.current.nativeStage.removeEventListener(flash.events.MouseEvent.MOUSE_MOVE, onMouseMoveHandler);
 			Starling.current.nativeStage.removeEventListener(flash.events.MouseEvent.MOUSE_UP, onMouseUpHandler);
+			var transPoint:Point = new Point(0, 0);
+			transPoint = _currentFocus.localToGlobal(transPoint, transPoint);
+			transPoint = _componentListCommandData.focus.entity.globalToLocal(transPoint, transPoint);
 			var sCommandListData:ComponentListCommandData = new ComponentListCommandData;
 			var componentPropertyValueList:ComponentValueList = new ComponentValueList;
 			var componentPropertyValue:ComponentPropertyValue = new ComponentPropertyValue;
 			componentPropertyValue.name = ComponentPropertyEnum.X;
-			componentPropertyValue.propertyValue = _currentFocus.x;
+			componentPropertyValue.propertyValue = transPoint.x + _componentListCommandData.focus.entity.x;
 			componentPropertyValueList.addItem(componentPropertyValue);
 			componentPropertyValue = new ComponentPropertyValue;
 			componentPropertyValue.name = ComponentPropertyEnum.Y;
-			componentPropertyValue.propertyValue = _currentFocus.y;
+			componentPropertyValue.propertyValue = transPoint.y + _componentListCommandData.focus.entity.y;
 			componentPropertyValueList.addItem(componentPropertyValue);
 			sCommandListData.componentPropertyValueList = componentPropertyValueList;
 			sendNotification(ComponentListCommand.FOCUS_OPERATION_MOVE, sCommandListData);
@@ -143,6 +145,10 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 				if (displayObject)
 				{
 					ComponentDisplayFactory.filterComponent(sComponentListCommandData.component, displayObject);
+//					if (sComponentListCommandData.component.isFocusBeContainer)
+//					{
+//						fileFocusBeContainerPoint(sComponentListCommandData.component);
+//					}
 				}
 				else
 				{
