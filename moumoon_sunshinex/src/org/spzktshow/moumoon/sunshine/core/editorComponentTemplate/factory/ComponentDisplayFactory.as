@@ -7,6 +7,7 @@ package org.spzktshow.moumoon.sunshine.core.editorComponentTemplate.factory
 	import org.spzktshow.moumoon.core.componentTemplate.componetProperty.IComponentProperty;
 	import org.spzktshow.moumoon.core.componentTemplate.enum.ComponentTemplateEnum;
 	import org.spzktshow.moumoon.core.componentValue.IComponentPropertyValue;
+	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
 	
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -144,6 +145,16 @@ package org.spzktshow.moumoon.sunshine.core.editorComponentTemplate.factory
 					displayObject[componentProperty.name] = componentPropertyValue.propertyValue;
 				}
 			}
+		}
+		/**
+		 *将ListComponent的属性赋值到displayObject 
+		 * @param component
+		 * @param displayObject
+		 * 
+		 */		
+		public static function filterListComponent(component:IListComponent, displayObject:DisplayObject):void
+		{
+			displayObject.visible = component.isView;
 		}
 		
 		public static function createAuto(componentTemplate:IComponentTemplate):DisplayObject

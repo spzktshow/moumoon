@@ -121,7 +121,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		
 		override public function listNotificationInterests():Array
 		{
-			return [ComponentListCommand.REFRESHED, ComponentListCommand.COMPONENT_OPERATION_REFRESHED];
+			return [ComponentListCommand.REFRESHED, ComponentListCommand.COMPONENT_OPERATION_REFRESHED, ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -129,6 +129,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 			if (notification.getName() == ComponentListCommand.REFRESHED)
 			{
 				displayLayer.removeChildren();
+				_displayCacheList.splice(0, _displayCacheList.length);
 				
 				_currentContainerFocus = null;
 				_currentFocus = null;
@@ -145,15 +146,17 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 				if (displayObject)
 				{
 					ComponentDisplayFactory.filterComponent(sComponentListCommandData.component, displayObject);
-//					if (sComponentListCommandData.component.isFocusBeContainer)
-//					{
-//						fileFocusBeContainerPoint(sComponentListCommandData.component);
-//					}
 				}
 				else
 				{
 					throw new Error("operation component = null");
 				}
+			}
+			else if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_VISIBLE)
+			{
+				sComponentListCommandData = notification.getBody() as ComponentListCommandData;
+				displayObject = this.getDisplayObjectFromCache(sComponentListCommandData.component.name);
+				if (displayObject) ComponentDisplayFactory.filterListComponent(sComponentListCommandData.component, displayObject);
 			}
 		}
 		
@@ -168,6 +171,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 			var display:DisplayObject = ComponentDisplayFactory.createComponent(component);
 			parent.addChild(display);
 			_displayCacheList.push(display);
+			ComponentDisplayFactory.filterListComponent(component, display);
 			if (component.isFocusBeContainer)
 			{
 				_currentContainerFocus = display;

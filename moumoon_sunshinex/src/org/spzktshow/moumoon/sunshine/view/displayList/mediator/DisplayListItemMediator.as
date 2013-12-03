@@ -2,10 +2,8 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 {
 	import feathers.controls.Label;
 	
+	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
-	import org.spzktshow.moumoon.core.componentTemplate.configData.ComponentPropertyEnum;
-	import org.spzktshow.moumoon.core.componentValue.ComponentPropertyValue;
-	import org.spzktshow.moumoon.core.componentValue.ComponentValueList;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommand;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommandData;
 	import org.spzktshow.moumoon.sunshine.core.assets.Assets;
@@ -50,6 +48,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		
 		override public function onRegister():void
 		{
+			DisplayItemFactory.renderTitle(_component, displayListItem);
 			_label = displayListItem.getChildByName(DisplayItemFactory.LABEL) as Label;
 			_label.addEventListener(MouseEvent.MOUSE_CLICK, onMouseClickHandler);
 			
@@ -62,31 +61,35 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 			_eyeTouchProxy = new TouchProxy(_eye);
 		}
 		
+		override public function listNotificationInterests():Array
+		{
+			return [ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED];
+		}
+		
+		override public function handleNotification(notification:INotification):void
+		{
+			if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.DISPLAY_LAYER_OEPRATION_TYPE_ISOPEN)
+			{
+				var sComponentListCommandData:ComponentListCommandData = notification.getBody() as ComponentListCommandData;
+				if (displayListItem.name == sComponentListCommandData.component.name)
+				{
+					DisplayItemFactory.renderTitle(_component, displayListItem);
+				}
+			}
+		}
+		
 		protected function onMouseClickHandler(e:MouseEvent):void
 		{
 			var componentListCommandData:ComponentListCommandData = new ComponentListCommandData;
 			componentListCommandData.componentName = _component.name;
-			this.sendNotification(ComponentListCommand.FOCUS, componentListCommandData);
+			this.sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION, componentListCommandData, ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_FOCUS);
 		}
 		
 		protected function onMouseClickEyeHandler(e:MouseEvent):void
 		{
 			var sCommandListData:ComponentListCommandData = new ComponentListCommandData;
 			sCommandListData.componentName = _component.name;
-			var componentPropertyValueList:ComponentValueList = new ComponentValueList;
-			var componentPropertyValue:ComponentPropertyValue = new ComponentPropertyValue;
-			componentPropertyValue.name = ComponentPropertyEnum.VISIBLE;
-			if (_component.isView)
-			{
-				componentPropertyValue.propertyValue = false;
-			}
-			else
-			{
-				componentPropertyValue.propertyValue = true;
-			}
-			componentPropertyValueList.addItem(componentPropertyValue);
-			sCommandListData.componentPropertyValueList = componentPropertyValueList;
-			sendNotification(ComponentListCommand.COMPONENT_OPERATION_VISIBLE, sCommandListData);
+			sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION, sCommandListData, ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_VISIBLE);
 		}
 		/**
 		 *显示列表item 

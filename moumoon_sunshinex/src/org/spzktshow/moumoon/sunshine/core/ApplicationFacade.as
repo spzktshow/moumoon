@@ -47,10 +47,10 @@ package org.spzktshow.moumoon.sunshine.core
 			this.registerCommand(ComponentListCommand.INIT, ComponentListCommand);
 			this.registerCommand(ComponentListCommand.CREATE_COMPONENT, ComponentListCommand);
 			this.registerCommand(ComponentListCommand.CHANGE_COMPONENT, ComponentListCommand);
-			this.registerCommand(ComponentListCommand.FOCUS, ComponentListCommand);
+			//this.registerCommand(ComponentListCommand.FOCUS, ComponentListCommand);
 			this.registerCommand(ComponentListCommand.ADD_CHILD, ComponentListCommand);
 			this.registerCommand(ComponentListCommand.FOCUS_OPERATION_MOVE, ComponentListCommand);
-			this.registerCommand(ComponentListCommand.COMPONENT_OPERATION_VISIBLE, ComponentListCommand);
+			this.registerCommand(ComponentListCommand.DISPLAY_LAYER_OPERATION, ComponentListCommand);
 			
 			this.registerCommand(ComponentCommand.INIT, ComponentCommand);
 			this.registerCommand(ComponentCommand.UPDATE, ComponentCommand);

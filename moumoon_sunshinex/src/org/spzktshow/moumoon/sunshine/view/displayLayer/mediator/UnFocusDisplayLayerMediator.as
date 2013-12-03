@@ -18,14 +18,29 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		
 		protected var _componentListCommandData:ComponentListCommandData;
 		
+		/**
+		 *这个列表很重要,他以一维的形式保存了,显示列表上所有的显示对象,这样方便了更改某个显示对象时不必遍历整个显示列表 
+		 */		
+		private var _displayCacheList:Vector.<DisplayObject>;
+		
 		public function UnFocusDisplayLayerMediator(viewComponent:Object=null)
 		{
 			super(NAME, viewComponent);
 		}
 		
+		override public function onRegister():void
+		{
+			_displayCacheList = new Vector.<DisplayObject>;
+		}
+		
+		override public function onRemove():void
+		{
+			_displayCacheList = null;
+		}
+		
 		override public function listNotificationInterests():Array
 		{
-			return [ComponentListCommand.REFRESHED]
+			return [ComponentListCommand.REFRESHED, ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED]
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -38,6 +53,12 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 				
 				roundUnFocusComponent(_componentListCommandData.component as IListComponent, unFocusDisplayLayer);
 			}
+			else if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_VISIBLE)
+			{
+				sComponentListCommandData = notification.getBody() as ComponentListCommandData;
+				var displayObject:DisplayObject = this.getDisplayObjectFromCache(sComponentListCommandData.component.name);
+				if (displayObject) ComponentDisplayFactory.filterListComponent(sComponentListCommandData.component, displayObject);
+			}
 		}
 		
 		/**
@@ -49,17 +70,37 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		{
 			var display:DisplayObject = ComponentDisplayFactory.createComponent(component);
 			parent.addChild(display);
+			_displayCacheList.push(display);
+			ComponentDisplayFactory.filterListComponent(component, display);
 			if (component.entity is DisplayObjectContainer && DisplayObjectContainer(component.entity).numChildren > 0)
 			{
 				var n:int = DisplayObjectContainer(component.entity).numChildren;
 				for (var i:int = 0; i < n; i ++)
 				{
-					if (component.isFocus) continue;
 					var displayObject:DisplayObject = DisplayObjectContainer(component.entity).getChildAt(i);
 					var tempcomponent:IListComponent = ComponentControlUtils.getComponentByName(_componentListCommandData.editorFile.componentGroup, displayObject.name) as IListComponent;
+					if (tempcomponent.isFocus) continue;
 					roundUnFocusComponent(tempcomponent, display as DisplayObjectContainer);
 				}
 			}
+		}
+		
+		/**
+		 * 
+		 * @param name
+		 * @return 
+		 * 
+		 */		
+		protected function getDisplayObjectFromCache(name:String):DisplayObject
+		{
+			for each(var displayObject:DisplayObject in _displayCacheList)
+			{
+				if (displayObject.name == name)
+				{
+					return displayObject;
+				}
+			}
+			return null;
 		}
 		
 		public function get unFocusDisplayLayer():UnFocusDisplayLayer

@@ -7,6 +7,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
 	import org.spzktshow.moumoon.sunshine.core.component.utils.ListComponentUtils;
 	
+	import starling.display.DisplayObjectContainer;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.textures.Texture;
@@ -122,6 +123,53 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 			label.name = LABEL;
 			return container;
 		}
+		
+		public static function renderIsOpen(listComponent:IListComponent, title:Sprite):void
+		{
+			if (listComponent.entity is DisplayObjectContainer)
+			{
+				if (listComponent.isOpen)
+				{
+					var isOpen:Image = title.getChildByName(Assets.IS_OPEN) as Image;
+					var noOpen:Image = title.getChildByName(Assets.NO_OPEN) as Image;
+					isOpen.visible = true;
+					noOpen.visible = false;
+					noOpen.touchable = true;
+				}
+				else
+				{
+					isOpen = title.getChildByName(Assets.IS_OPEN) as Image;
+					noOpen = title.getChildByName(Assets.NO_OPEN) as Image;
+					isOpen.visible = false;
+					noOpen.visible = true;
+					noOpen.touchable = true;
+				}
+			}
+			else
+			{
+				isOpen = title.getChildByName(Assets.IS_OPEN) as Image;
+				noOpen = title.getChildByName(Assets.NO_OPEN) as Image;
+				isOpen.visible = false;
+				noOpen.visible = true;
+				noOpen.touchable = false;
+			}
+		}
+		
+		public static function renderIsView(listComponent:IListComponent, title:Sprite):void
+		{
+			if (ListComponentUtils.checkTopUnView(listComponent) != null)
+			{
+				//
+				var eye:Image = title.getChildByName(Assets.EYE) as Image;
+				eye.alpha = .5;
+			}
+			else
+			{
+				eye = title.getChildByName(Assets.EYE) as Image;
+				eye.alpha = 1;
+			}
+		}
+		
 		/**
 		 *渲染一个title 
 		 * @param listComponent
@@ -141,31 +189,10 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 				lock = title.getChildByName(Assets.LOCK) as Image;
 				lock.alpha = 1;
 			}
-			if (ListComponentUtils.checkTopUnView(listComponent) != null)
-			{
-				//
-				var eye:Image = title.getChildByName(Assets.EYE) as Image;
-				eye.alpha = .5;
-			}
-			else
-			{
-				eye = title.getChildByName(Assets.EYE) as Image;
-				eye.alpha = 1;
-			}
-			if (listComponent.isOpen)
-			{
-				var isOpen:Image = title.getChildByName(Assets.IS_OPEN) as Image;
-				var noOpen:Image = title.getChildByName(Assets.NO_OPEN) as Image;
-				isOpen.visible = true;
-				noOpen.visible = false;
-			}
-			else
-			{
-				isOpen = title.getChildByName(Assets.IS_OPEN) as Image;
-				noOpen = title.getChildByName(Assets.NO_OPEN) as Image;
-				isOpen.visible = false;
-				noOpen.visible = true;
-			}
+			
+			renderIsOpen(listComponent, title);
+			renderIsView(listComponent, title);
+			
 			var textFiled:TextInput = title.getChildByName(INPUT_TEXT) as TextInput;
 			var label:Label = title.getChildByName(LABEL) as Label;
 			textFiled.text = listComponent.name;

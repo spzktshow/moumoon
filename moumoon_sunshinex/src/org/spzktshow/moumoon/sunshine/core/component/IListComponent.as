@@ -4,7 +4,7 @@ package org.spzktshow.moumoon.sunshine.core.component
 
 	public interface IListComponent extends IComponent
 	{
-		//======================general operation========================
+		//======================display layer operation========================
 		/**
 		 *是否在显示列表中打开状态
 		 * @param value

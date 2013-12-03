@@ -44,12 +44,12 @@ package org.spzktshow.moumoon.sunshine.view.componentPropertyPanel.mediator
 		
 		override public function listNotificationInterests():Array
 		{
-			return [ComponentListCommand.FOCUSED, ComponentListCommand.FOCUS_OPREATION_REFRESHED];
+			return [ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED, ComponentListCommand.FOCUS_OPREATION_REFRESHED];
 		}
 		
 		override public function handleNotification(notification:INotification):void
 		{
-			if (notification.getName() == ComponentListCommand.FOCUSED)
+			if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_FOCUS)
 			{
 				var componentListCommandData:ComponentListCommandData = notification.getBody() as ComponentListCommandData;
 				if (componentListCommandData)

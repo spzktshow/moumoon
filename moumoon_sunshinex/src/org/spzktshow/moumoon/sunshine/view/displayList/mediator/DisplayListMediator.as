@@ -19,7 +19,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 	
 	public class DisplayListMediator extends Mediator
 	{
-		private static const X_GAP:int = 50;
+		private static const X_GAP:int = 20;
 		
 		public static const NAME:String = "displayListMediatorName";
 		
@@ -118,7 +118,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 			{
 				var xIndex:int = calculateComponentLayerCount(_listComponent, _listComponent);
 				var view:Sprite = DisplayItemFactory.getTitle();
-				DisplayItemFactory.renderTitle(_listComponent, view);
+				//DisplayItemFactory.renderTitle(_listComponent, view);
 //				view.addEventListener(TouchEvent.TOUCH, onTouchNadler);
 				view.x = xIndex * X_GAP;
 				view.y = _yIndex * DisplayItemFactory.ROW_GAP;
@@ -144,7 +144,6 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 				var currentComponent:IListComponent = _editorFile.componentGroup.getItem(entity.name) as IListComponent;
 				var xIndex:int = calculateComponentLayerCount(_listComponent, currentComponent);
 				var view:Sprite = DisplayItemFactory.getTitle();
-				DisplayItemFactory.renderTitle(currentComponent, view);
 //				view.addEventListener(TouchEvent.TOUCH, onTouchNadler);
 				view.x = xIndex * X_GAP;
 				view.y = _yIndex * DisplayItemFactory.ROW_GAP;
