@@ -16,19 +16,14 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>[source path] MetalWorksMobileTheme-source</name>
-			<type>2</type>
-			<locationURI>DOCUMENTS/feather/themes/MetalWorksMobileTheme/source</locationURI>
-		</link>
-		<link>
 			<name>[source path] assets</name>
 			<type>2</type>
 			<locationURI>DOCUMENTS/feather/themes/MetalWorksMobileTheme/assets</locationURI>
 		</link>
 		<link>
-			<name>[source path] feather-source</name>
+			<name>[source path] source</name>
 			<type>2</type>
-			<locationURI>DOCUMENTS/feather/source</locationURI>
+			<locationURI>DOCUMENTS/feather/themes/MetalWorksMobileTheme/source</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
