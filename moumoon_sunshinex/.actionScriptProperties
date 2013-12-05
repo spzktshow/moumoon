@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="moumoon_sunshinex.mxml" projectUUID="d41cc0ee-79fa-48f3-b9c8-a55ee462d915" version="11">
+  <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" useFlashSDK="false" verifyDigests="true" warn="true">
+    <compilerSourcePath>
+      <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/feather/themes/MetalWorksMobileTheme/assets"/>
+      <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/feather/themes/MetalWorksMobileTheme/source"/>
+      <compilerSourcePathEntry kind="1" linkType="1" path="D:/FlashPro4.7/spzktshowloadersoluction/src"/>
+      <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/moumoon_young/src"/>
+    </compilerSourcePath>
+    <libraryPath defaultLinkType="1">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="3" linkType="1" path="/fileAbstractLibs/bin/fileAbstractLibs.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/moumoon_core/bin/moumoon_core.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/PureMVC_AS3_2_0_4/bin/PureMVC_AS3_2_0_4.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/Starling/bin-debug/Starling.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/feather/bin/feather.swc" useDefaultLinkType="false"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="moumoon_sunshinex.mxml">
+      <airExcludes/>
+    </application>
+  </applications>
+  <modules/>
+  <workers/>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+  <buildTargets>
+    <buildTarget buildTargetName="default" platformId="default">
+      <airSettings airCertificatePath="" airTimestamp="true" anePathSet="true" version="1">
+        <airExcludes/>
+        <anePaths/>
+        <newLaunchParams/>
+        <modifiedLaunchParams/>
+        <newPackagingParams/>
+        <modifiedPackagingParams/>
+      </airSettings>
+      <actionScriptSettings version="1"/>
+    </buildTarget>
+  </buildTargets>
+</actionScriptProperties>

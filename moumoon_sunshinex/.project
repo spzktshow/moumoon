@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>moumoon_young</name>
+	<name>moumoon_sunshinex</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -10,8 +10,15 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>com.adobe.flexbuilder.project.apollobuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>com.adobe.flexbuilder.project.apollonature</nature>
+		<nature>com.adobe.flexbuilder.project.flexnature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
 	<linkedResources>
@@ -21,9 +28,19 @@
 			<locationURI>DOCUMENTS/feather/themes/MetalWorksMobileTheme/assets</locationURI>
 		</link>
 		<link>
+			<name>[source path] moumoon_young-src</name>
+			<type>2</type>
+			<locationURI>DOCUMENTS/moumoon_young/src</locationURI>
+		</link>
+		<link>
 			<name>[source path] source</name>
 			<type>2</type>
 			<locationURI>DOCUMENTS/feather/themes/MetalWorksMobileTheme/source</locationURI>
+		</link>
+		<link>
+			<name>[source path] spzktshowloadersoluction-src</name>
+			<type>2</type>
+			<location>D:/FlashPro4.7/spzktshowloadersoluction/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>
