@@ -49,7 +49,7 @@ package org.spzktshow.moumoon.sunshine.view.componentPropertyPanel.mediator
 		
 		override public function handleNotification(notification:INotification):void
 		{
-			if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_FOCUS)
+			if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.TYPE_DISPLAY_LAYER_OPERATION_FOCUS)
 			{
 				var componentListCommandData:ComponentListCommandData = notification.getBody() as ComponentListCommandData;
 				if (componentListCommandData)

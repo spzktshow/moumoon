@@ -43,7 +43,7 @@ package org.spzktshow.moumoon.sunshine.core.component.utils
 			return null;
 		}
 		/**
-		 *从当前组件开始检查是否是容器类组件 
+		 *从当前组件开始检查容器类组件 
 		 * @param listComponent
 		 * @return 
 		 * 
@@ -52,7 +52,7 @@ package org.spzktshow.moumoon.sunshine.core.component.utils
 		{
 			while(listComponent)
 			{
-				if (listComponent.entity is DisplayObjectContainer)
+				if (checkIsContainer(listComponent) != -1)
 				{
 					return listComponent;
 				}
@@ -66,6 +66,17 @@ package org.spzktshow.moumoon.sunshine.core.component.utils
 				}
 			}
 			return null;
+		}
+		/**
+		 *检测是否是容器 , 如果是容器返回>=0 否则返回==-1,如果容器下有子对象,返回的数目==子对象的数量
+		 * @param listComponent
+		 * @return 
+		 * 
+		 */		
+		public static function checkIsContainer(listComponent:IListComponent):int
+		{
+			if (listComponent.entity is DisplayObjectContainer) return DisplayObjectContainer(listComponent.entity).numChildren;
+			return -1;
 		}
 	}
 }

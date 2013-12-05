@@ -7,7 +7,6 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
 	import org.spzktshow.moumoon.sunshine.core.component.utils.ListComponentUtils;
 	
-	import starling.display.DisplayObjectContainer;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.textures.Texture;
@@ -126,7 +125,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		
 		public static function renderIsOpen(listComponent:IListComponent, title:Sprite):void
 		{
-			if (listComponent.entity is DisplayObjectContainer)
+			if (ListComponentUtils.checkIsContainer(listComponent) > 0)
 			{
 				if (listComponent.isOpen)
 				{
@@ -134,7 +133,8 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 					var noOpen:Image = title.getChildByName(Assets.NO_OPEN) as Image;
 					isOpen.visible = true;
 					noOpen.visible = false;
-					noOpen.touchable = true;
+					isOpen.touchable = true;
+					noOpen.touchable = false;
 				}
 				else
 				{
@@ -143,6 +143,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 					isOpen.visible = false;
 					noOpen.visible = true;
 					noOpen.touchable = true;
+					isOpen.touchable = false;
 				}
 			}
 			else
@@ -150,8 +151,9 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 				isOpen = title.getChildByName(Assets.IS_OPEN) as Image;
 				noOpen = title.getChildByName(Assets.NO_OPEN) as Image;
 				isOpen.visible = false;
-				noOpen.visible = true;
+				noOpen.visible = false;
 				noOpen.touchable = false;
+				isOpen.touchable = false;
 			}
 		}
 		
@@ -201,22 +203,17 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 			textFiled.visible = false;
 			if (listComponent.isFocus)
 			{
-//				focus.visible = true;
 				label.textRendererProperties.background = true;
 				label.textRendererProperties.backgroundColor = FOCUS_COLOR;
-				label.textRendererProperties.@textFormat.color = DARK_TEXT_COLOR;
 			}
 			else if (listComponent.isFocusBeContainer)
 			{
-//				focusContainer.visible = true;
 				label.textRendererProperties.background = true;
 				label.textRendererProperties.backgroundColor = FOCUS_CONTAINER_COLOR;
-				label.textRendererProperties.@textFormat.color = DARK_TEXT_COLOR;
 			}
 			else
 			{
 				label.textRendererProperties.background = false;
-				label.textRendererProperties.@textFormat.color = LIGHT_TEXT_COLOR;
 			}
 		}
 	}

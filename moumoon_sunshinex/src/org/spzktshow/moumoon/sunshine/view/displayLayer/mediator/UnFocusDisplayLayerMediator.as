@@ -1,12 +1,18 @@
 package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 {
+	import flash.geom.Point;
+	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
 	import org.spzktshow.moumoon.core.component.utils.ComponentControlUtils;
+	import org.spzktshow.moumoon.core.componentTemplate.configData.ComponentPropertyEnum;
+	import org.spzktshow.moumoon.core.componentValue.IComponentPropertyValue;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommand;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommandData;
 	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
+	import org.spzktshow.moumoon.sunshine.core.component.utils.ListComponentUtils;
 	import org.spzktshow.moumoon.sunshine.core.editorComponentTemplate.factory.ComponentDisplayFactory;
+	import org.spzktshow.moumoon.sunshine.core.editorComponentTemplate.utils.ComponentValueListUtils;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.UnFocusDisplayLayer;
 	
 	import starling.display.DisplayObject;
@@ -51,13 +57,29 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 				var sComponentListCommandData:ComponentListCommandData = notification.getBody() as ComponentListCommandData;
 				_componentListCommandData = sComponentListCommandData;
 				
-				roundUnFocusComponent(_componentListCommandData.component as IListComponent, unFocusDisplayLayer);
+				roundUnFocusComponent(_componentListCommandData.editorFile.component as IListComponent, unFocusDisplayLayer);
 			}
-			else if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_VISIBLE)
+			else if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.TYPE_DISPLAY_LAYER_OPERATION_VISIBLE)
 			{
 				sComponentListCommandData = notification.getBody() as ComponentListCommandData;
 				var displayObject:DisplayObject = this.getDisplayObjectFromCache(sComponentListCommandData.component.name);
-				if (displayObject) ComponentDisplayFactory.filterListComponent(sComponentListCommandData.component, displayObject);
+				if (displayObject)
+				{
+					if (notification.getType() == ComponentListCommand.TYPE_MOVE)
+					{
+						if (sComponentListCommandData.component.isFocusBeContainer)
+						{
+							//特殊处理如果是移动,如果component为containerFocus
+							var xValue:IComponentPropertyValue = ComponentValueListUtils.getComponentPropertyValue(sComponentListCommandData.component.componentValueList, ComponentPropertyEnum.X);
+							var yValue:IComponentPropertyValue = ComponentValueListUtils.getComponentPropertyValue(sComponentListCommandData.component.componentValueList, ComponentPropertyEnum.Y);
+							var point:Point = new Point(Number(xValue.propertyValue), Number(yValue.propertyValue));
+							point = sComponentListCommandData.component.entity.parent.localToGlobal(point);
+							xValue.propertyValue = Number(point.x);
+							yValue.propertyValue = Number(point.y);
+						}
+					}
+					ComponentDisplayFactory.filterListComponent(sComponentListCommandData.component, displayObject);
+				}
 			}
 		}
 		
@@ -72,7 +94,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 			parent.addChild(display);
 			_displayCacheList.push(display);
 			ComponentDisplayFactory.filterListComponent(component, display);
-			if (component.entity is DisplayObjectContainer && DisplayObjectContainer(component.entity).numChildren > 0)
+			if (ListComponentUtils.checkIsContainer(component) > 0)
 			{
 				var n:int = DisplayObjectContainer(component.entity).numChildren;
 				for (var i:int = 0; i < n; i ++)

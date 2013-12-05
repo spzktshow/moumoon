@@ -29,6 +29,11 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		private var _eye:Image;//眼睛
 		private var _eyeTouchProxy:TouchProxy;
 		
+		private var _isOpen:Image;//是否打开子集
+		private var _isOpenTouchProxy:TouchProxy;//
+		private var _noOpen:Image;
+		private var _noOpenTouchProxy:TouchProxy;
+		
 		public function DisplayListItemMediator(component:IListComponent, viewComponent:Object=null)
 		{
 			_component = component;
@@ -39,11 +44,17 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		{
 			_labelTouchProxy.dispose();
 			_eyeTouchProxy.dispose();
+			_isOpenTouchProxy.dispose();
+			_noOpenTouchProxy.dispose();
 			
 			_label.removeEventListener(MouseEvent.MOUSE_CLICK, onMouseClickHandler);
 			_label = null;
 			_eye.removeEventListener(MouseEvent.MOUSE_CLICK, onMouseClickEyeHandler);
 			_eye = null;
+			_isOpen.removeEventListener(MouseEvent.MOUSE_CLICK, onMouseClickEyeHandler);
+			_isOpen = null;
+			_noOpen.removeEventListener(MouseEvent.MOUSE_CLICK, onMouseClickEyeHandler);
+			_noOpen = null;
 		}
 		
 		override public function onRegister():void
@@ -57,8 +68,18 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 			_eye.addEventListener(MouseEvent.MOUSE_CLICK, onMouseClickEyeHandler);
 			_eye.useHandCursor = true;
 			
+			_isOpen = displayListItem.getChildByName(Assets.IS_OPEN) as Image;
+			_isOpen.addEventListener(MouseEvent.MOUSE_CLICK, onMouseClickIsOpenHandler);
+			_isOpen.useHandCursor = true;
+			
+			_noOpen = displayListItem.getChildByName(Assets.NO_OPEN) as Image;
+			_noOpen.addEventListener(MouseEvent.MOUSE_CLICK, onMouseClickIsOpenHandler);
+			_noOpen.useHandCursor = true;
+			
 			_labelTouchProxy = new TouchProxy(_label);
 			_eyeTouchProxy = new TouchProxy(_eye);
+			_isOpenTouchProxy = new TouchProxy(_isOpen);
+			_noOpenTouchProxy = new TouchProxy(_noOpen);
 		}
 		
 		override public function listNotificationInterests():Array
@@ -68,12 +89,22 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		
 		override public function handleNotification(notification:INotification):void
 		{
-			if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.DISPLAY_LAYER_OEPRATION_TYPE_ISOPEN)
+			if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.TYPE_DISPLAY_LAYER_OPERATION_VISIBLE)
 			{
 				var sComponentListCommandData:ComponentListCommandData = notification.getBody() as ComponentListCommandData;
-				if (displayListItem.name == sComponentListCommandData.component.name)
+				if (ComponentListCommand.TYPE_DISPLAY_LAYER_OPERATION_VISIBLE == notification.getType())
 				{
-					DisplayItemFactory.renderTitle(_component, displayListItem);
+					if (displayListItem.name == sComponentListCommandData.component.name)
+					{
+						DisplayItemFactory.renderIsView(_component, displayListItem);
+					}
+				}
+				else if (ComponentListCommand.TYPE_DISPLAY_LAYER_OEPRATION_ISOPEN == notification.getType())
+				{
+					if (displayListItem.name == sComponentListCommandData.component.name)
+					{
+						DisplayItemFactory.renderIsOpen(_component, displayListItem);
+					}
 				}
 			}
 		}
@@ -82,14 +113,21 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		{
 			var componentListCommandData:ComponentListCommandData = new ComponentListCommandData;
 			componentListCommandData.componentName = _component.name;
-			this.sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION, componentListCommandData, ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_FOCUS);
+			this.sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION, componentListCommandData, ComponentListCommand.TYPE_DISPLAY_LAYER_OPERATION_FOCUS);
 		}
 		
 		protected function onMouseClickEyeHandler(e:MouseEvent):void
 		{
 			var sCommandListData:ComponentListCommandData = new ComponentListCommandData;
 			sCommandListData.componentName = _component.name;
-			sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION, sCommandListData, ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_VISIBLE);
+			sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION, sCommandListData, ComponentListCommand.TYPE_DISPLAY_LAYER_OPERATION_VISIBLE);
+		}
+		
+		protected function onMouseClickIsOpenHandler(e:MouseEvent):void
+		{
+			var sCommandListData:ComponentListCommandData = new ComponentListCommandData;
+			sCommandListData.componentName = _component.name;
+			sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION, sCommandListData, ComponentListCommand.TYPE_DISPLAY_LAYER_OEPRATION_ISOPEN);
 		}
 		/**
 		 *显示列表item 

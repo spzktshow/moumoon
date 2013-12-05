@@ -9,6 +9,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommandData;
 	import org.spzktshow.moumoon.sunshine.controller.file.FileCommand;
 	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
+	import org.spzktshow.moumoon.sunshine.core.component.utils.ListComponentUtils;
 	import org.spzktshow.moumoon.sunshine.core.file.IEditorFile;
 	
 	import starling.display.DisplayObject;
@@ -44,7 +45,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 		
 		override public function listNotificationInterests():Array
 		{
-			return [FileCommand.FOCUSED_FILE, ComponentListCommand.REFRESHED];
+			return [FileCommand.FOCUSED_FILE, ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED];
 		}
 		
 		override public function handleNotification(notification:INotification):void
@@ -80,19 +81,21 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 //				panelData.component = component;
 //				this.setPanelData(panelData);
 			}
-			else if (notification.getName() == ComponentListCommand.REFRESHED)
+			else if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.TYPE_DISPLAY_LAYER_OPERATION_FOCUS
+			|| notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.TYPE_DISPLAY_LAYER_OEPRATION_ISOPEN
+			)
 			{
 				var sComponentListCommandData:ComponentListCommandData = notification.getBody() as ComponentListCommandData;
-				setPanelData(sComponentListCommandData.component as IListComponent, sComponentListCommandData.editorFile);
+				setPanelData(sComponentListCommandData.editorFile);
 			}
 		}
 		
 		protected var _listComponent:IListComponent;
 		protected var _editorFile:IEditorFile;
-		protected function setPanelData(value:IListComponent, editorFile:IEditorFile):void
+		protected function setPanelData(editorFile:IEditorFile):void
 		{
-			_listComponent = value;
 			_editorFile = editorFile;
+			_listComponent = editorFile.component;
 			
 			destoryPanel();
 			refreshPanel();
@@ -128,7 +131,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 				facade.registerMediator(mediator);
 				_displayListItemMediators.push(mediator);
 				_yIndex ++;
-				if (_listComponent.isOpen && _listComponent.entity is DisplayObjectContainer && DisplayObjectContainer(_listComponent.entity).numChildren > 0)
+				if (_listComponent.isOpen && ListComponentUtils.checkIsContainer(_listComponent) > 0)
 				{
 					roundDownPanelData(_listComponent);
 				}
@@ -153,7 +156,7 @@ package org.spzktshow.moumoon.sunshine.view.displayList.mediator
 				facade.registerMediator(mediator);
 				_displayListItemMediators.push(mediator);
 				_yIndex ++;
-				if (currentComponent.isOpen && currentComponent.entity is DisplayObjectContainer && DisplayObjectContainer(currentComponent.entity).numChildren > 0)
+				if (currentComponent.isOpen && ListComponentUtils.checkIsContainer(currentComponent) > 0)
 				{
 					roundDownPanelData(currentComponent);
 				}

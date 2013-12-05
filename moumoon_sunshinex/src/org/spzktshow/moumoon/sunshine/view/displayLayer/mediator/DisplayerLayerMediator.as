@@ -9,10 +9,13 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 	import org.spzktshow.moumoon.core.componentTemplate.configData.ComponentPropertyEnum;
 	import org.spzktshow.moumoon.core.componentValue.ComponentPropertyValue;
 	import org.spzktshow.moumoon.core.componentValue.ComponentValueList;
+	import org.spzktshow.moumoon.core.componentValue.IComponentPropertyValue;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommand;
 	import org.spzktshow.moumoon.sunshine.controller.componentList.ComponentListCommandData;
 	import org.spzktshow.moumoon.sunshine.core.component.IListComponent;
+	import org.spzktshow.moumoon.sunshine.core.component.utils.ListComponentUtils;
 	import org.spzktshow.moumoon.sunshine.core.editorComponentTemplate.factory.ComponentDisplayFactory;
+	import org.spzktshow.moumoon.sunshine.core.editorComponentTemplate.utils.ComponentValueListUtils;
 	import org.spzktshow.moumoon.sunshine.core.proxy.touch.MouseEvent;
 	import org.spzktshow.moumoon.sunshine.core.proxy.touch.TouchProxy;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.DisplayLayer;
@@ -104,19 +107,19 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 			Starling.current.nativeStage.removeEventListener(flash.events.MouseEvent.MOUSE_UP, onMouseUpHandler);
 			var transPoint:Point = new Point(0, 0);
 			transPoint = _currentFocus.localToGlobal(transPoint, transPoint);
-			transPoint = _componentListCommandData.focus.entity.globalToLocal(transPoint, transPoint);
+			transPoint = _componentListCommandData.focus.entity.parent.globalToLocal(transPoint, transPoint);
 			var sCommandListData:ComponentListCommandData = new ComponentListCommandData;
 			var componentPropertyValueList:ComponentValueList = new ComponentValueList;
 			var componentPropertyValue:ComponentPropertyValue = new ComponentPropertyValue;
 			componentPropertyValue.name = ComponentPropertyEnum.X;
-			componentPropertyValue.propertyValue = transPoint.x + _componentListCommandData.focus.entity.x;
+			componentPropertyValue.propertyValue = transPoint.x;// + _componentListCommandData.focus.entity.x;
 			componentPropertyValueList.addItem(componentPropertyValue);
 			componentPropertyValue = new ComponentPropertyValue;
 			componentPropertyValue.name = ComponentPropertyEnum.Y;
-			componentPropertyValue.propertyValue = transPoint.y + _componentListCommandData.focus.entity.y;
+			componentPropertyValue.propertyValue = transPoint.y;// + _componentListCommandData.focus.entity.y;
 			componentPropertyValueList.addItem(componentPropertyValue);
 			sCommandListData.componentPropertyValueList = componentPropertyValueList;
-			sendNotification(ComponentListCommand.FOCUS_OPERATION_MOVE, sCommandListData);
+			sendNotification(ComponentListCommand.FOCUS_OEPRATION, sCommandListData, ComponentListCommand.TYPE_MOVE);
 		}
 		
 		override public function listNotificationInterests():Array
@@ -145,6 +148,19 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 				var displayObject:DisplayObject = this.getDisplayObjectFromCache(sComponentListCommandData.component.name);
 				if (displayObject)
 				{
+					if (notification.getType() == ComponentListCommand.TYPE_MOVE)
+					{
+						if (sComponentListCommandData.component.isFocusBeContainer)
+						{
+							//特殊处理如果是移动,如果component为containerFocus
+							var xValue:IComponentPropertyValue = ComponentValueListUtils.getComponentPropertyValue(sComponentListCommandData.component.componentValueList, ComponentPropertyEnum.X);
+							var yValue:IComponentPropertyValue = ComponentValueListUtils.getComponentPropertyValue(sComponentListCommandData.component.componentValueList, ComponentPropertyEnum.Y);
+							var point:Point = new Point(Number(xValue.propertyValue), Number(yValue.propertyValue));
+							point = sComponentListCommandData.component.entity.parent.localToGlobal(point);
+							xValue.propertyValue = Number(point.x);
+							yValue.propertyValue = Number(point.y);
+						}
+					}
 					ComponentDisplayFactory.filterComponent(sComponentListCommandData.component, displayObject);
 				}
 				else
@@ -152,7 +168,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 					throw new Error("operation component = null");
 				}
 			}
-			else if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_VISIBLE)
+			else if (notification.getName() == ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED && notification.getType() == ComponentListCommand.TYPE_DISPLAY_LAYER_OPERATION_VISIBLE)
 			{
 				sComponentListCommandData = notification.getBody() as ComponentListCommandData;
 				displayObject = this.getDisplayObjectFromCache(sComponentListCommandData.component.name);
@@ -181,7 +197,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 			{
 				_currentFocus = display;
 			}
-			if (component.entity is DisplayObjectContainer && DisplayObjectContainer(component.entity).numChildren > 0)
+			if (ListComponentUtils.checkIsContainer(component) > 0)
 			{
 				var n:int = DisplayObjectContainer(component.entity).numChildren;
 				for (var i:int = 0; i < n; i ++)

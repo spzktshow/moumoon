@@ -52,7 +52,7 @@ package org.spzktshow.moumoon.sunshine.view.floatLayer.mediator
 				_currentImage.y = handlerData.point.y;
 				
 				Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMoveHandler);
-				Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_UP, onMouseUpHandler);
+				Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_UP, onMouseUpFloatSourceHandler);
 			}
 			else if (notification.getName() == FloatLayerCommand.FLOATED_COMPONENT)
 			{
@@ -64,7 +64,7 @@ package org.spzktshow.moumoon.sunshine.view.floatLayer.mediator
 				_currentImage.x = handlerData.point.x;
 				_currentImage.y = handlerData.point.y;
 				Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMoveHandler)
-				Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_UP, onMouseUpHandler1)
+				Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_UP, onMouseUpFloatComponentHandler)
 			}
 		}
 		
@@ -74,11 +74,11 @@ package org.spzktshow.moumoon.sunshine.view.floatLayer.mediator
 			_currentImage.y = e.stageY;
 		}
 		
-		private function onMouseUpHandler(e:MouseEvent):void
+		private function onMouseUpFloatSourceHandler(e:MouseEvent):void
 		{
 			floatLayer.removeChildren();
 			Starling.current.nativeStage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMoveHandler);
-			Starling.current.nativeStage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUpHandler);
+			Starling.current.nativeStage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUpFloatSourceHandler);
 			
 			var sComponentListCommandData:ComponentListCommandData = new ComponentListCommandData;
 			sComponentListCommandData.sourceName = _currentSourceName;
@@ -104,11 +104,11 @@ package org.spzktshow.moumoon.sunshine.view.floatLayer.mediator
 			this.sendNotification(ComponentListCommand.ADD_CHILD, sComponentListCommandData);
 		}
 		
-		private function onMouseUpHandler1(e:MouseEvent):void
+		private function onMouseUpFloatComponentHandler(e:MouseEvent):void
 		{
 			floatLayer.removeChildren();
 			Starling.current.nativeStage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMoveHandler);
-			Starling.current.nativeStage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUpHandler1);
+			Starling.current.nativeStage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUpFloatComponentHandler);
 			
 			var sComponentListCommandData:ComponentListCommandData = new ComponentListCommandData;
 			sComponentListCommandData.componentTemplateType = ComponentTemplateEnum.CONTAINER;

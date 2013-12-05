@@ -32,14 +32,6 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 		 */		
 		public static const INITED:String = "componentListCommandInited";
 		/**
-		 *当前组件列表 
-		 */		
-		public static const SET_OPERATE_COMPONENT_LIST:String = "componentListCommandSetOperationComponentList";
-		/**
-		 *设置当前组件完成 >>
-		 */		
-		public static const SET_OPERATE_COMPONENT_LIST_COMPLETE:String = "componentListCommandSetOperateComponentListComplete";
-		/**
 		 *添加顶级组件 ，相当于初始化的时候创建组件列表
 		 */		
 		public static const CREATE_COMPONENT:String = "componentListCommandAddComponent";
@@ -64,15 +56,20 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 		 */		
 		public static const ADDED_CHILD:String = "componentListCommandAddedChild";
 		/**
-		 *刷新 
-		 */		
-		public static const REFRESH:String = "componentListCommandRefresh";
-		/**
-		 *刷新完成  >>
+		 *组件操作刷新完成  >>
 		 */		
 		public static const REFRESHED:String = "componentListCommandRefreshed";
 		/**************************************component operation*******************************************************///model层组件数据改变
+		/***type***/
+		/**
+		 *移动组件 
+		 */		
+		public static const TYPE_MOVE:String = "componentListCommandTypeMove";
 		/*********************component****************/
+		/**
+		 *组件操作
+		 */		
+		public static const COMPONENT_OPERATION:String = "componentListCommandComponentOperation";
 		/**
 		 *组件操作更新  >>
 		 * 当组建有属性更新时发送
@@ -80,14 +77,14 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 		public static const COMPONENT_OPERATION_REFRESHED:String = "componentListCommandComponentOperationRefreshed";
 		/*********************focus********************/
 		/**
+		 *焦点组件操作 
+		 */		
+		public static const FOCUS_OEPRATION:String = "componentListCommandFocusComponentOperation";
+		/**
 		 * 焦点操作更新 >>
 		 * 当焦点组建有属性更新时发送
 		 * */
 		public static const FOCUS_OPREATION_REFRESHED:String = "componentListCommandFocuseOperationRefreshed";
-		/**
-		 *焦点组件操作,移动 
-		 */		
-		public static const FOCUS_OPERATION_MOVE:String = "componentListCommandFocusOperationMove";
 		/***************/
 		/****************************************displaylayer operation**************************************************///显示层组件数据改变,不会影响model层实际显示列表数据的改变
 		/**
@@ -101,15 +98,15 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 		/**
 		 *type 显示或隐藏某个组件 
 		 */		
-		public static const DISPLAY_LAYER_OPERATION_TYPE_VISIBLE:String = "componentListCommandDisplayLayerOperationTypeVisible";
+		public static const TYPE_DISPLAY_LAYER_OPERATION_VISIBLE:String = "componentListCommandDisplayLayerOperationTypeVisible";
 		/**
 		 *type 焦点组件 
 		 */		
-		public static const DISPLAY_LAYER_OPERATION_TYPE_FOCUS:String = "componentListCommandDisplayLayerOperationTypeFocus";
+		public static const TYPE_DISPLAY_LAYER_OPERATION_FOCUS:String = "componentListCommandDisplayLayerOperationTypeFocus";
 		/**
 		 *type 是否打开 
 		 */		
-		public static const DISPLAY_LAYER_OEPRATION_TYPE_ISOPEN:String = "componentListCommandDisplayLayerOperationTypeIsopen";
+		public static const TYPE_DISPLAY_LAYER_OEPRATION_ISOPEN:String = "componentListCommandDisplayLayerOperationTypeIsopen";
 		/*****************/
 		public function ComponentListCommand()
 		{
@@ -217,15 +214,15 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 				sendNotification(ComponentListCommand.ADDED_CHILD, sComponentListCommandData);
 				focusComponent(component, componentListModel, rComponentListCommandData);
 			}
-			else if (notification.getName() == FOCUS_OPERATION_MOVE)
+			else if (notification.getName() == FOCUS_OEPRATION)
 			{
 				componentListModel = facade.retrieveProxy(ComponentListModel.NAME) as ComponentListModel;
 				rComponentListCommandData = notification.getBody() as ComponentListCommandData;
-				operationFocus(componentListModel, rComponentListCommandData);
+				operationFocus(componentListModel, rComponentListCommandData, notification.getType());
 			}
 			else if (notification.getName() == DISPLAY_LAYER_OPERATION)
 			{
-				if (notification.getType() == DISPLAY_LAYER_OPERATION_TYPE_VISIBLE)
+				if (notification.getType() == TYPE_DISPLAY_LAYER_OPERATION_VISIBLE)
 				{
 					componentListModel = facade.retrieveProxy(ComponentListModel.NAME) as ComponentListModel;
 					rComponentListCommandData = notification.getBody() as ComponentListCommandData;
@@ -239,7 +236,7 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 						throw new Error("显示隐藏组件时，未查找到相应的名称");
 					}
 				}
-				else if (notification.getType() == DISPLAY_LAYER_OPERATION_TYPE_FOCUS)//焦点
+				else if (notification.getType() == TYPE_DISPLAY_LAYER_OPERATION_FOCUS)//焦点
 				{
 					componentListModel = facade.retrieveProxy(ComponentListModel.NAME) as ComponentListModel;
 					rComponentListCommandData = notification.getBody() as ComponentListCommandData;
@@ -258,6 +255,20 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 						throw new Error("焦点组件时，未查找到相应的名称");
 					}
 				}
+				else if (notification.getType() == TYPE_DISPLAY_LAYER_OEPRATION_ISOPEN)
+				{
+					componentListModel = facade.retrieveProxy(ComponentListModel.NAME) as ComponentListModel;
+					rComponentListCommandData = notification.getBody() as ComponentListCommandData;
+					component = ComponentControlUtils.getComponentByName(componentListModel.editorFile.componentGroup, rComponentListCommandData.componentName) as IListComponent;
+					if (component)
+					{
+						isOpenComponent(component, componentListModel, rComponentListCommandData);
+					}
+					else
+					{
+						throw new Error("isOpen组件时，未查找到相应的名称");
+					}
+				}
 			}
 		}
 		/**
@@ -267,13 +278,13 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 		 * @param rComponentListCommandData
 		 * 
 		 */		
-		private function operationComponent(component:IListComponent, componentListModel:ComponentListModel, rComponentListCommandData:ComponentListCommandData):void
+		private function operationComponent(component:IListComponent, componentListModel:ComponentListModel, rComponentListCommandData:ComponentListCommandData, type:String):void
 		{
 			ComponentValueListFactory.mix(component, rComponentListCommandData.componentPropertyValueList);	
 			var sComponentListCommandData:ComponentListCommandData = new ComponentListCommandData;
 			sComponentListCommandData.component = component;
 			sComponentListCommandData.componentPropertyValueList = rComponentListCommandData.componentPropertyValueList;
-			sendNotification(ComponentListCommand.COMPONENT_OPERATION_REFRESHED, sComponentListCommandData);
+			sendNotification(ComponentListCommand.COMPONENT_OPERATION_REFRESHED, sComponentListCommandData, type);
 		}
 		/**
 		 * 操作焦点组件
@@ -281,14 +292,14 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 		 * @param rComponentListCommandData
 		 * 
 		 */		
-		private function operationFocus(componentListModel:ComponentListModel, rComponentListCommandData:ComponentListCommandData):void
+		private function operationFocus(componentListModel:ComponentListModel, rComponentListCommandData:ComponentListCommandData, type:String):void
 		{
 			var component:IListComponent = componentListModel.currentFocus;
-			operationComponent(component, componentListModel, rComponentListCommandData);
+			operationComponent(component, componentListModel, rComponentListCommandData, type);
 			var sComponentListCommandData:ComponentListCommandData = new ComponentListCommandData;
 			sComponentListCommandData.focus = component;
 			sComponentListCommandData.componentPropertyValueList = rComponentListCommandData.componentPropertyValueList;
-			sendNotification(ComponentListCommand.FOCUS_OPREATION_REFRESHED, sComponentListCommandData);
+			sendNotification(ComponentListCommand.FOCUS_OPREATION_REFRESHED, sComponentListCommandData, type);
 		}
 		/**
 		 *焦点组件 
@@ -307,13 +318,12 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 			componentListModel.currentContainerFocus.isFocusBeContainer = true;
 			
 			var sComponentListCommandData:ComponentListCommandData = new ComponentListCommandData;
-			sComponentListCommandData.component = componentListModel.editorFile.component;
 			sComponentListCommandData.focus = componentListModel.currentFocus;
 			sComponentListCommandData.containerFocus = componentListModel.currentContainerFocus;
 			sComponentListCommandData.globalMousePoint = rComponentListCommandData.globalMousePoint;
 			sComponentListCommandData.componentPoint = rComponentListCommandData.componentPoint;
 			sComponentListCommandData.editorFile = componentListModel.editorFile;
-			sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED, sComponentListCommandData, ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_FOCUS);
+			sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED, sComponentListCommandData, ComponentListCommand.TYPE_DISPLAY_LAYER_OPERATION_FOCUS);
 			sendNotification(ComponentListCommand.REFRESHED, sComponentListCommandData);
 		}
 		/**
@@ -329,7 +339,7 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 			
 			var sComponentListCommandData:ComponentListCommandData = new ComponentListCommandData;
 			sComponentListCommandData.component = component;
-			sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED, sComponentListCommandData, ComponentListCommand.DISPLAY_LAYER_OPERATION_TYPE_VISIBLE);
+			sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED, sComponentListCommandData, ComponentListCommand.TYPE_DISPLAY_LAYER_OPERATION_VISIBLE);
 		}
 		/**
 		 *打开关闭组合 
@@ -344,7 +354,10 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 			
 			var sComponentListCommandData:ComponentListCommandData = new ComponentListCommandData;
 			sComponentListCommandData.component = component;
-			sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED, sComponentListCommandData, ComponentListCommand.DISPLAY_LAYER_OEPRATION_TYPE_ISOPEN);
+			sComponentListCommandData.editorFile = componentListModel.editorFile;
+			sComponentListCommandData.focus = componentListModel.currentFocus;
+			sComponentListCommandData.containerFocus = componentListModel.currentContainerFocus;
+			sendNotification(ComponentListCommand.DISPLAY_LAYER_OPERATION_REFRESHED, sComponentListCommandData, ComponentListCommand.TYPE_DISPLAY_LAYER_OEPRATION_ISOPEN);
 		}
 	}
 }
