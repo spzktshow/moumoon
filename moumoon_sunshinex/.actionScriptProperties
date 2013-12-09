@@ -4,8 +4,8 @@
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/feather/themes/MetalWorksMobileTheme/assets"/>
       <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/feather/themes/MetalWorksMobileTheme/source"/>
-      <compilerSourcePathEntry kind="1" linkType="1" path="D:/FlashPro4.7/spzktshowloadersoluction/src"/>
       <compilerSourcePathEntry kind="1" linkType="1" path="${DOCUMENTS}/moumoon_young/src"/>
+      <compilerSourcePathEntry kind="1" linkType="1" path="/Users/rocklee/Documents/FlashPro/LoaderSolution/src"/>
     </compilerSourcePath>
     <libraryPath defaultLinkType="1">
       <libraryPathEntry kind="4" path="">

@@ -6,6 +6,7 @@ package org.spzktshow.moumoon.sunshine.core
 	import org.spzktshow.moumoon.sunshine.controller.file.FileCommand;
 	import org.spzktshow.moumoon.sunshine.controller.floatlayer.FloatLayerCommand;
 	import org.spzktshow.moumoon.sunshine.controller.source.SourceCommand;
+	import org.spzktshow.moumoon.sunshine.view.displayLayer.mediator.ActDisplayLayerMediator;
 	
 	public class ApplicationFacade extends Facade
 	{

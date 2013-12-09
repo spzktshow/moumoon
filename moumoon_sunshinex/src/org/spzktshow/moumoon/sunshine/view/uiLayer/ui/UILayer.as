@@ -1,16 +1,16 @@
 package org.spzktshow.moumoon.sunshine.view.uiLayer.ui
 {
-	import feathers.controls.Panel;
 	import feathers.core.FeathersControl;
 	
 	import org.spzktshow.moumoon.sunshine.core.ApplicationFacade;
+	import org.spzktshow.moumoon.sunshine.view.displayLayer.mediator.ActDisplayLayerMediator;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.mediator.DisplayerLayerMediator;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.mediator.FocusPointLayerMediator;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.mediator.UnFocusDisplayLayerMediator;
+	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.ActDisplayLayer;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.DisplayLayer;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.FocusPointLayer;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.UnFocusDisplayLayer;
-	import org.spzktshow.moumoon.sunshine.view.displayList.mediator.DisplayListMediator;
 	import org.spzktshow.moumoon.sunshine.view.fileBar.mediator.FileBarMediator;
 	import org.spzktshow.moumoon.sunshine.view.fileBar.ui.FileBar;
 	import org.spzktshow.moumoon.sunshine.view.floatLayer.mediator.FloatlayerMediator;
@@ -35,6 +35,8 @@ package org.spzktshow.moumoon.sunshine.view.uiLayer.ui
 				<menuItem name='open' data = '1002'/>
 			</menuItem>
 			<menuItem name='editor' data='2001'>
+			</menuItem>
+			<menuItem name='test actor displaylayer' data='9001'>
 			</menuItem>
 		</featureMenu>
 		/**
@@ -65,6 +67,10 @@ package org.spzktshow.moumoon.sunshine.view.uiLayer.ui
 		 *未焦点的显示层 
 		 */		
 		private var _unFocusDisplayLayer:UnFocusDisplayLayer;
+		/**
+		 *真实显示层 
+		 */		
+		private var _actDisplayLayer:ActDisplayLayer;
 		
 		public function UILayer()
 		{
@@ -82,6 +88,7 @@ package org.spzktshow.moumoon.sunshine.view.uiLayer.ui
 			ApplicationFacade.getInstance().removeMediator(FileBarMediator.NAME);
 			ApplicationFacade.getInstance().removeMediator(RightWorkGroupMediator.NAME);
 			ApplicationFacade.getInstance().removeMediator(FloatlayerMediator.NAME);
+			ApplicationFacade.getInstance().removeMediator(ActDisplayLayerMediator.NAME);
 		}
 		
 		override protected function initialize():void
@@ -95,6 +102,11 @@ package org.spzktshow.moumoon.sunshine.view.uiLayer.ui
 			addChild(_displayLayer);
 			var displayLayerMediator:DisplayerLayerMediator = new DisplayerLayerMediator(_displayLayer);
 			ApplicationFacade.getInstance().registerMediator(displayLayerMediator);
+			
+			_actDisplayLayer = new ActDisplayLayer;
+			addChild(_actDisplayLayer);
+			var actDisplayLayerMediator:ActDisplayLayerMediator = new ActDisplayLayerMediator(_actDisplayLayer);
+			ApplicationFacade.getInstance().registerMediator(actDisplayLayerMediator);
 			
 			_leftWorkGroup = new LeftWorkGroup;
 			_leftWorkGroup.width = 200;

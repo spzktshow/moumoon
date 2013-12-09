@@ -2,6 +2,7 @@ package org.spzktshow.moumoon.sunshine.view.menu.mediator
 {
 	import org.puremvc.as3.patterns.mediator.Mediator;
 	import org.spzktshow.moumoon.sunshine.controller.file.FileCommand;
+	import org.spzktshow.moumoon.sunshine.view.displayLayer.mediator.ActDisplayLayerMediator;
 	import org.spzktshow.moumoon.sunshine.view.menu.ui.FeatureMenu;
 	import org.spzktshow.moumoon.young.screen.MenuScreenEvent;
 	
@@ -35,6 +36,10 @@ package org.spzktshow.moumoon.sunshine.view.menu.mediator
 			else if (e.menuListContext.data == 1002)//open
 			{
 				
+			}
+			else if (e.menuListContext.data == 9001)//test displayLayer
+			{
+				this.sendNotification(ActDisplayLayerMediator.CHANGE_STATE);
 			}
 		}
 		

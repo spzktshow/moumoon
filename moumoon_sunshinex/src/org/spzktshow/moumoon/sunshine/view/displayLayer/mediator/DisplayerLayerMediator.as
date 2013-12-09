@@ -19,10 +19,12 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 	import org.spzktshow.moumoon.sunshine.core.proxy.touch.MouseEvent;
 	import org.spzktshow.moumoon.sunshine.core.proxy.touch.TouchProxy;
 	import org.spzktshow.moumoon.sunshine.view.displayLayer.ui.DisplayLayer;
+	import org.spzktshow.moumoon.sunshine.view.displayList.mediator.DisplayItemFactory;
 	
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.DisplayObjectContainer;
+	import starling.display.Image;
 
 	/**
 	 *显示层mediator 
@@ -197,7 +199,8 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 			{
 				_currentFocus = display;
 			}
-			if (ListComponentUtils.checkIsContainer(component) > 0)
+			var containers:int = ListComponentUtils.checkIsContainer(component);
+			if (containers > 0)
 			{
 				var n:int = DisplayObjectContainer(component.entity).numChildren;
 				for (var i:int = 0; i < n; i ++)
@@ -210,6 +213,11 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 						break;
 					}
 				}
+			}
+			if (containers >= 0)
+			{
+				var focusView:Image = new Image(DisplayItemFactory.EYE);
+				DisplayObjectContainer(display).addChild(focusView);
 			}
 		}
 		

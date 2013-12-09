@@ -29,7 +29,8 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 		
 		override public function listNotificationInterests():Array
 		{
-			return [ComponentListCommand.REFRESHED, FileCommand.FILE_UNEMPTY, FileCommand.FILE_EMPTY, ComponentListCommand.FOCUS_OPREATION_REFRESHED];
+			return [];
+			//return [ComponentListCommand.REFRESHED, FileCommand.FILE_UNEMPTY, FileCommand.FILE_EMPTY, ComponentListCommand.FOCUS_OPREATION_REFRESHED];
 		}
 		
 		override public function handleNotification(notification:INotification):void

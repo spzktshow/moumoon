@@ -17,6 +17,7 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.ui
 		
 		override protected function init():void
 		{
+			this.visible = false;
 			var texture:Texture = DisplayItemFactory.EYE;
 			focusPoint = new Image(texture);
 			addChild(focusPoint);
