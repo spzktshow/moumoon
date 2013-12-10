@@ -150,20 +150,14 @@ package org.spzktshow.moumoon.sunshine.view.displayLayer.mediator
 				var displayObject:DisplayObject = this.getDisplayObjectFromCache(sComponentListCommandData.component.name);
 				if (displayObject)
 				{
+					ComponentDisplayFactory.filterComponent(sComponentListCommandData.component, displayObject);
 					if (notification.getType() == ComponentListCommand.TYPE_MOVE)
 					{
 						if (sComponentListCommandData.component.isFocusBeContainer)
 						{
-							//特殊处理如果是移动,如果component为containerFocus
-							var xValue:IComponentPropertyValue = ComponentValueListUtils.getComponentPropertyValue(sComponentListCommandData.component.componentValueList, ComponentPropertyEnum.X);
-							var yValue:IComponentPropertyValue = ComponentValueListUtils.getComponentPropertyValue(sComponentListCommandData.component.componentValueList, ComponentPropertyEnum.Y);
-							var point:Point = new Point(Number(xValue.propertyValue), Number(yValue.propertyValue));
-							point = sComponentListCommandData.component.entity.parent.localToGlobal(point);
-							xValue.propertyValue = Number(point.x);
-							yValue.propertyValue = Number(point.y);
+							fileFocusBeContainerPoint(sComponentListCommandData.component);
 						}
 					}
-					ComponentDisplayFactory.filterComponent(sComponentListCommandData.component, displayObject);
 				}
 				else
 				{
