@@ -144,30 +144,13 @@ package org.spzktshow.moumoon.sunshine.controller.componentList
 				sComponentListCommandData.editorFile = componentListModel.editorFile;
 				this.sendNotification(ComponentListCommand.CREATED_COMPONENT, sComponentListCommandData);
 				focusComponent(componentListModel.editorFile.component, componentListModel, rComponentListCommandData);
-//				componentListModel.currentFocus = componentListModel.editorFile.component as IListComponent;
-//				componentListModel.currentFocus.isFocus = true;
-//				componentListModel.currentContainerFocus = componentListModel.editorFile.component as IListComponent;
-//				componentListModel.currentContainerFocus.isFocusBeContainer = true;
-//				sComponentListCommandData = new ComponentListCommandData;
-//				sComponentListCommandData.focus = componentListModel.currentFocus;//当前的焦点组件
-//				sComponentListCommandData.containerFocus = componentListModel.currentContainerFocus;//当前作为容器的焦点组件
-//				sComponentListCommandData.component = componentListModel.editorFile.component;//当前的顶级组件
-//				sComponentListCommandData.editorFile = componentListModel.editorFile;
-//				sendNotification(ComponentListCommand.FOCUSED, sComponentListCommandData);
-//				sendNotification(ComponentListCommand.REFRESHED, sComponentListCommandData);
 			}
 			else if (notification.getName() == CHANGE_COMPONENT)
 			{
 				rComponentListCommandData = notification.getBody() as ComponentListCommandData;
 				componentListModel = facade.retrieveProxy(ComponentListModel.NAME) as ComponentListModel;
 				componentListModel.editorFile = rComponentListCommandData.editorFile;
-//				componentListModel.currentFocus = componentListModel.editorFile.component as IListComponent;
-//				componentListModel.currentFocus.isFocus = true;
-//				componentListModel.currentContainerFocus = componentListModel.editorFile.component as IListComponent;
-//				componentListModel.currentContainerFocus.isFocusBeContainer = true;
 				sComponentListCommandData = new ComponentListCommandData;
-//				sComponentListCommandData.focus = componentListModel.currentFocus;//当前的焦点组件
-//				sComponentListCommandData.containerFocus = componentListModel.currentContainerFocus;//当前作为容器的焦点组件
 				sComponentListCommandData.component = componentListModel.editorFile.component;//当前的顶级组件
 				sComponentListCommandData.editorFile = componentListModel.editorFile;
 				sendNotification(ComponentListCommand.CHANGED_COMPONENT, sComponentListCommandData);
